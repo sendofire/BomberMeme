@@ -7,17 +7,10 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
-<GridPane xmlns="http://javafx.com/javafx"
+<AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="fr.amu.iut.MenuControl"
             prefHeight="400.0" prefWidth="600.0">
             <Text id="welcome-text" text="WELCUM"/>
-
-    <VBox alignment="CENTER" spacing="30" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
-        <Button fx:id="switchda" onAction="#switchScene" text="GAYME"/>
-        <Button fx:id="ParamButton" onAction="#switchScene" text="PARAMETRE"/>
-        <Button fx:id="QUITButton" onAction="#quitScene" text="QUITTER"/>
-    </VBox>
-
-
-</GridPane>
+            <Button fx:id="switchda" onAction="#switchScene" text="GAYME"/>
+</AnchorPane>

@@ -1,5 +1,6 @@
 package fr.amu.iut;
 
+import fr.amu.iut.Personnages.Joueurs;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,20 +18,10 @@ public class MenuControl {
     public Scene scene;
     public Parent root;
 
+    Joueurs j1 = new Joueurs(1, 10, 10);
+
     public void switchScene(javafx.event.ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Level1.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void quitScene(javafx.event.ActionEvent event) throws IOException {
-        //stage.close();
-    }
-
-    public void ParamButton(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Parametre.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
