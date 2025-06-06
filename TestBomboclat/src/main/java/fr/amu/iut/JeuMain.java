@@ -6,7 +6,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.awt.event.ActionEvent;
 import java.util.Scanner;
 
 import java.io.IOException;
@@ -21,12 +23,10 @@ public class JeuMain extends Application {
 
         Joueurs j1 = new Joueurs(1, 10, 10);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Level1.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("BOMBOCLAT");
         stage.show();
     }
-
-    //public void deplacement(Joueurs j1) {}
 }
