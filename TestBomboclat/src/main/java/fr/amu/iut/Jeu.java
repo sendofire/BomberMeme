@@ -9,5 +9,5 @@ public class Jeu {
 
     }
 
-    switch(keyPressed)
+    //switch(keyPressed){}
 }
