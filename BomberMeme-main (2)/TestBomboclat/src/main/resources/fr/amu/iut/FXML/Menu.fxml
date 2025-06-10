@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+        xmlns:fx="http://javafx.com/fxml"
+        fx:controller="fr.amu.iut.MenuControl"
+        prefHeight="600.0" prefWidth="800.0">
+        <Text id="welcome-text" text="WELCUM"/>
+        <Button alignment="CENTER" layoutX="325.0" layoutY="280.0" fx:id="switchPlay" onAction="#switchScene" style="-fx-background-color: transparent;" text="Start">
+                <font>
+                        <Font size="45"/>
+                </font>
+        </Button>
+        <Button alignment="CENTER" layoutX="280.0" layoutY="365.0" fx:id="switchParam" onAction="#switchMenu" style="-fx-background-color: transparent;" text="Parametre">
+                <font>
+                        <Font size="42"/>
+                </font>
+        </Button>
+        <Button alignment="CENTER" layoutX="300.0" layoutY="465.0" fx:id="quit" onAction="#quit" style="-fx-background-color: transparent;" text="QUITTER">
+                <font>
+                        <Font size="40"/>
+                </font>
+        </Button>
+</AnchorPane>
