@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="fr.amu.iut.MenuControl"
-        prefHeight="600.0" prefWidth="800.0">
-        <Text id="welcome-text" text="WELCUM"/>
-        <Button alignment="CENTER" layoutX="325.0" layoutY="280.0" fx:id="switchPlay" onAction="#switchScene" style="-fx-background-color: transparent;" text="Start">
-                <font>
-                        <Font size="45"/>
-                </font>
-        </Button>
-        <Button alignment="CENTER" layoutX="280.0" layoutY="365.0" fx:id="switchParam" onAction="#switchMenu" style="-fx-background-color: transparent;" text="Parametre">
-                <font>
-                        <Font size="42"/>
-                </font>
-        </Button>
-        <Button alignment="CENTER" layoutX="300.0" layoutY="465.0" fx:id="quit" onAction="#quit" style="-fx-background-color: transparent;" text="QUITTER">
-                <font>
-                        <Font size="40"/>
-                </font>
-        </Button>
-</AnchorPane>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="fr.amu.iut.MenuControl"  prefWidth="720" prefHeight="624" styleClass="menu-container">
+        <top>
+                <VBox alignment="CENTER">
+                        <ImageView fitWidth="500" fitHeight="100">
+                                <image>
+                                        <Image url="@Bomberman_Logo.png"/>
+                                </image>
+                        </ImageView>
+                </VBox>
+
+        </top>
+        <center>
+                <VBox spacing="15" alignment="CENTER">
+                        <Button fx:id="multijoueurButton" text="Multijoueur" styleClass="menu-button" onAction="#switchScene"/>
+                        <Button fx:id="soloButton" text="Solo" styleClass="menu-button"/>
+                        <Button fx:id="editeurNiveauxButton" text="Éditeur de Niveaux" styleClass="menu-button"/>
+                        <Button fx:id="paramètresButton" text="Paramètres" styleClass="menu-button"/>
+                        <Button fx:id="créditsButton" text="Crédits" styleClass="menu-button" onAction="#switchCredits"/>
+                </VBox>
+        </center>
+
+        <bottom>
+                <Label text="© 2025 - Développé par les étudiants de l'IUT d'Aix" styleClass="footer-label" BorderPane.alignment="CENTER"/>
+        </bottom>
+</BorderPane>

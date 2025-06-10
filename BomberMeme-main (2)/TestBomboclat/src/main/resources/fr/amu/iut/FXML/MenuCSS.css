@@ -1,0 +1,35 @@
+.menu-container {
+    -fx-padding: 50;
+    -fx-background-color: linear-gradient(to bottom, #1e1e2f, #2e2e3f);
+}
+
+.menu-button {
+    -fx-font-size: 16px;
+    -fx-background-radius: 20;
+    -fx-padding: 10 20;
+    -fx-text-fill: white;
+    -fx-background-color: #3b3b5f;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, black, 3, 0.3, 0, 2);
+    -fx-border-radius: 20;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-pref-width: 200;
+}
+
+.menu-button:hover {
+    -fx-background-color: #50507a;
+}
+
+.title-label {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 30 0;
+}
+
+.footer-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: lightgray;
+    -fx-padding: 10;
+}

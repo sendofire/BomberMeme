@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="fr.amu.iut.MenuControl">
+
+    <top>
+        <Label text="💥 Crédits 💥" styleClass="credits-title" BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" spacing="15" styleClass="credits-container">
+            <Label text="Développé par :" styleClass="credits-subtitle"/>
+            <Label text="• Alice Dupont" styleClass="credits-name"/>
+            <Label text="• Mohamed Zerouali" styleClass="credits-name"/>
+            <Label text="• Jeanne Leroy" styleClass="credits-name"/>
+            <Label text="• Lucas Martin" styleClass="credits-name"/>
+
+            <Label text="Encadré par M. Fabre (IUT d’Aix)" styleClass="credits-info"/>
+
+            <Label text="Merci aux ressources libres utilisées :" styleClass="credits-subtitle"/>
+            <Label text="• Tilesets de Kenney.nl" styleClass="credits-info"/>
+            <Label text="• Musique de OpenGameArt" styleClass="credits-info"/>
+        </VBox>
+    </center>
+
+    <bottom>
+        <Button text="Retour" fx:id="retourButton" styleClass="return-button" BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>

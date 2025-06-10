@@ -13,8 +13,6 @@ import java.util.Scanner;
 
 import java.io.IOException;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class JeuMain extends Application {
     public static void main(String[] args) {Application.launch(args);}
 
@@ -22,6 +20,7 @@ public class JeuMain extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/Menu.fxml"));
         Scene scene = new Scene(loader.load());
+        scene.getStylesheets().add(getClass().getResource("FXML/MenuCSS.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("BOMBOCLAT");
         stage.show();

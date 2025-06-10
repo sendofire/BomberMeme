@@ -23,7 +23,7 @@ public class MenuControl {
 
     @FXML
     public void switchScene(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/MenuPerso.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/Credits.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -41,9 +41,18 @@ public class MenuControl {
 
     @FXML
     public void switchHome(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/Menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/Menu.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchCredits(javafx.event.ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/Credits.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("FXML/CreditsCSS.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
