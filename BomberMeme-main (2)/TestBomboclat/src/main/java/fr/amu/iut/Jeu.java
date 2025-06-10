@@ -1,12 +1,11 @@
 package fr.amu.iut;
 
-import fr.amu.iut.Personnages.Joueurs;
 import fr.amu.iut.Personnages.JoueurMultiplayer;
 import fr.amu.iut.Objets.Bombes;
 import fr.amu.iut.Objets.PowerUps;
 import fr.amu.iut.Obstacle.Explosions;
 import fr.amu.iut.graphique.Sprite;
-import fr.amu.iut.graphique.banniere;
+import fr.amu.iut.graphique.Banniere;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -34,7 +33,7 @@ public class Jeu implements Initializable {
     private Canvas canvas;
     private GraphicsContext gc;
     private AnimationTimer gameLoop;
-    private banniere gameBanner;
+    private Banniere gameBanner;
 
     // Constantes du jeu
     private static final int GRID_WIDTH = 15;
@@ -79,7 +78,7 @@ public class Jeu implements Initializable {
     private void initializeCanvas() {
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         gc = canvas.getGraphicsContext2D();
-        gameBanner = new banniere(gc);
+        gameBanner = new Banniere(gc);
         gamePane.getChildren().add(canvas);
 
         // Centrer le canvas
