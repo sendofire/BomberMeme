@@ -21,15 +21,7 @@
     -fx-background-color: #50507a;
 }
 
-.title-label {
-    -fx-font-size: 32px;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-padding: 0 0 30 0;
-}
-
 .footer-label {
     -fx-font-size: 12px;
     -fx-text-fill: lightgray;
-    -fx-padding: 10;
 }

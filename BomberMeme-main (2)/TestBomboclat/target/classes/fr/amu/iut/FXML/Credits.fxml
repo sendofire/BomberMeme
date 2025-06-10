@@ -5,29 +5,34 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Pos?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="fr.amu.iut.MenuControl">
+<BorderPane xmlns:fx="http://javafx.com/fxml" prefWidth="720" prefHeight="624" fx:controller="fr.amu.iut.MenuControl" styleClass="credits-container">
 
     <top>
         <Label text="💥 Crédits 💥" styleClass="credits-title" BorderPane.alignment="CENTER"/>
     </top>
 
     <center>
-        <VBox alignment="CENTER" spacing="15" styleClass="credits-container">
-            <Label text="Développé par :" styleClass="credits-subtitle"/>
-            <Label text="• Alice Dupont" styleClass="credits-name"/>
-            <Label text="• Mohamed Zerouali" styleClass="credits-name"/>
-            <Label text="• Jeanne Leroy" styleClass="credits-name"/>
-            <Label text="• Lucas Martin" styleClass="credits-name"/>
-
-            <Label text="Encadré par M. Fabre (IUT d’Aix)" styleClass="credits-info"/>
-
-            <Label text="Merci aux ressources libres utilisées :" styleClass="credits-subtitle"/>
-            <Label text="• Tilesets de Kenney.nl" styleClass="credits-info"/>
-            <Label text="• Musique de OpenGameArt" styleClass="credits-info"/>
-        </VBox>
+        <HBox alignment="BASELINE_CENTER" spacing="50">
+            <VBox alignment="CENTER_LEFT">
+                <Label text="Développé par :" styleClass="credits-subtitle"/>
+                <Label text="• Boudia--Thomas Akcyl" styleClass="credits-name"/>
+                <Label text="• Marchitto Ilian" styleClass="credits-name"/>
+                <Label text="• Megnouche Riad" styleClass="credits-name"/>
+                <Label text="• Toro Esteban" styleClass="credits-name"/>
+                <Label text="Encadré par M.Flouvat" styleClass="credits-info"/>
+            </VBox>
+            <VBox alignment="CENTER_LEFT">
+                <Label text="Merci aux intelligences artificelles :" styleClass="credits-subtitle"/>
+                <Label text="• Claude AI" styleClass="credits-info"/>
+                <Label text="• ChatGPT" styleClass="credits-info"/>
+            </VBox>
+        </HBox>
     </center>
 
     <bottom>
-        <Button text="Retour" fx:id="retourButton" styleClass="return-button" BorderPane.alignment="CENTER"/>
+        <Button text="Retour"
+                styleClass="return-button"
+                BorderPane.alignment="CENTER"
+                onAction="#switchHome"/>
     </bottom>
 </BorderPane>

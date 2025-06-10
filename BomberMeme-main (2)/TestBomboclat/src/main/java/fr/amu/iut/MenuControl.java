@@ -22,32 +22,16 @@ public class MenuControl {
     Joueurs j1 = new Joueurs(1, 10, 10);
 
     @FXML
-    public void switchScene(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/Credits.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
-    public void switchMenu(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/Parametre.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    @FXML
     public void switchHome(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("FXML/Menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/Menu.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("FXML/MenuCSS.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
     }
 
+    @FXML
     public void switchCredits(javafx.event.ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("FXML/Credits.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -57,6 +41,15 @@ public class MenuControl {
         stage.show();
     }
 
+    @FXML
+    public void switchMaintenance(javafx.event.ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/Maintenance.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("FXML/MaintenanceCSS.css").toExternalForm());
+        stage.setScene(scene);
+        stage.show();
+    }
     @FXML
     public void quit(javafx.event.ActionEvent event) throws IOException {
         System.exit(0);

@@ -1,15 +1,21 @@
 .credits-title {
-    -fx-font-size: 28px;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;
-    -fx-padding: 20;
+    -fx-text-fill: white;
+    -fx-padding: 50 0 50 0;
+    -fx-alignment: center;
+}
+
+.credits-container {
+    -fx-padding: 40;
+    -fx-background-color: linear-gradient(to bottom, #1e1e2f, #2e2e3f);
 }
 
 .credits-subtitle {
-    -fx-font-size: 18px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #ffffaa;
-    -fx-padding: 10 0 0 0;
+    -fx-text-fill: #dcdcff;
+    -fx-padding: 10 0 5 0;
 }
 
 .credits-name {
@@ -19,23 +25,24 @@
 
 .credits-info {
     -fx-font-size: 14px;
-    -fx-text-fill: #dddddd;
-}
-
-.credits-container {
-    -fx-padding: 30;
-    -fx-background-color: linear-gradient(to bottom, #2e8b57, #3cb371); /* dégradé vert type herbe */
-    -fx-background-radius: 15;
-    -fx-border-radius: 15;
-    -fx-effect: dropshadow(gaussian, black, 10, 0.3, 0, 4);
+    -fx-text-fill: #bbbbbb;
 }
 
 .return-button {
     -fx-font-size: 14px;
-    -fx-background-color: #444;
+    -fx-padding: 10 20;
+    -fx-background-color: #3b3b5f;
     -fx-text-fill: white;
     -fx-background-radius: 20;
-    -fx-padding: 10 20;
+    -fx-border-radius: 20;
+    -fx-border-color: white;
+    -fx-border-width: 1;
     -fx-cursor: hand;
-    -fx-effect: dropshadow(gaussian, black, 4, 0.2, 0, 2);
+    -fx-effect: dropshadow(gaussian, black, 3, 0.3, 0, 2);
+    -fx-pref-width: 150;
+    -fx-alignment: center;
+}
+
+.return-button:hover {
+    -fx-background-color: #50507a;
 }

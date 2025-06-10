@@ -15,15 +15,15 @@
                                 </image>
                         </ImageView>
                 </VBox>
-
         </top>
         <center>
                 <VBox spacing="15" alignment="CENTER">
-                        <Button fx:id="multijoueurButton" text="Multijoueur" styleClass="menu-button" onAction="#switchScene"/>
-                        <Button fx:id="soloButton" text="Solo" styleClass="menu-button"/>
-                        <Button fx:id="editeurNiveauxButton" text="Éditeur de Niveaux" styleClass="menu-button"/>
-                        <Button fx:id="paramètresButton" text="Paramètres" styleClass="menu-button"/>
-                        <Button fx:id="créditsButton" text="Crédits" styleClass="menu-button" onAction="#switchCredits"/>
+                        <Button  text="Multijoueur" styleClass="menu-button"/>
+                        <Button text="Solo" styleClass="menu-button"/>
+                        <Button text="Éditeur de Niveaux" styleClass="menu-button" onAction="#switchMaintenance"/>
+                        <Button text="Paramètres" styleClass="menu-button" onAction="#switchMaintenance"/>
+                        <Button text="Crédits" styleClass="menu-button" onAction="#switchCredits"/>
+                        <Button text="Quitter" styleClass="menu-button" onAction="#quit"/>
                 </VBox>
         </center>
 
