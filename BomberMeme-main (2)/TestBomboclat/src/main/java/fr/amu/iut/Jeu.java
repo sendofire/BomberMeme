@@ -1,12 +1,11 @@
 package fr.amu.iut;
 
-import fr.amu.iut.Personnages.Joueurs;
 import fr.amu.iut.Personnages.JoueurMultiplayer;
 import fr.amu.iut.Objets.Bombes;
 import fr.amu.iut.Objets.PowerUps;
 import fr.amu.iut.Obstacle.Explosions;
 import fr.amu.iut.graphique.Sprite;
-import fr.amu.iut.graphique.banniere;
+import fr.amu.iut.graphique.Banniere;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
@@ -33,10 +33,10 @@ public class Jeu implements Initializable {
     private Canvas canvas;
     private GraphicsContext gc;
     private AnimationTimer gameLoop;
-    private banniere gameBanner;
+    private Banniere gameBanner;
 
     // Constantes du jeu
-    private static final int GRID_WIDTH = 19;
+    private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 13;
     private static final int TILE_SIZE = 48;
     private static final int CANVAS_WIDTH = GRID_WIDTH * TILE_SIZE;
@@ -49,7 +49,7 @@ public class Jeu implements Initializable {
     private List<Bombes> bombs;
     private List<Explosions> explosions;
     private List<PowerUps> powerUps;
-    private Map<String, Boolean> pressedKeys;
+    private Set<KeyCode> pressedKeys;
     private Random random;
     private GameState gameState;
     private int gameScore;
@@ -78,7 +78,7 @@ public class Jeu implements Initializable {
     private void initializeCanvas() {
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         gc = canvas.getGraphicsContext2D();
-        gameBanner = new banniere(gc);
+        gameBanner = new Banniere(gc);
         gamePane.getChildren().add(canvas);
 
         // Centrer le canvas
@@ -92,7 +92,7 @@ public class Jeu implements Initializable {
         bombs = new ArrayList<>();
         explosions = new ArrayList<>();
         powerUps = new ArrayList<>();
-        pressedKeys = new ConcurrentHashMap<>();
+        pressedKeys = ConcurrentHashMap.newKeySet();
         random = new Random();
         gameState = GameState.PLAYING;
         gameScore = 0;
@@ -166,11 +166,17 @@ public class Jeu implements Initializable {
     }
 
     private void handleKeyPressed(KeyEvent event) {
-        pressedKeys.put(event.getCode().toString(), true);
+        pressedKeys.add(event.getCode());
+
+        // Gestion de la touche Escape pour retourner au menu
+        if (event.getCode() == KeyCode.ESCAPE) {
+            stopGame();
+            // Ici vous pourriez ajouter la logique pour retourner au menu
+        }
     }
 
     private void handleKeyReleased(KeyEvent event) {
-        pressedKeys.put(event.getCode().toString(), false);
+        pressedKeys.remove(event.getCode());
     }
 
     private void startGameLoop() {
@@ -220,7 +226,7 @@ public class Jeu implements Initializable {
         int newY = player.getY();
         String newDirection = player.getDirection();
 
-        // Vérifier les touches de mouvement
+        // Vérifier les touches de mouvement en utilisant KeyCode
         if (isKeyPressed(player.getUpKey())) {
             newY--;
             newDirection = "UP";
@@ -258,8 +264,30 @@ public class Jeu implements Initializable {
         }
     }
 
-    private boolean isKeyPressed(String key) {
-        return pressedKeys.getOrDefault(key, false);
+    private boolean isKeyPressed(String keyString) {
+        try {
+            KeyCode keyCode = KeyCode.valueOf(keyString);
+            return pressedKeys.contains(keyCode);
+        } catch (IllegalArgumentException e) {
+            // Pour les touches qui ne correspondent pas directement à KeyCode
+            switch (keyString) {
+                case "Z": return pressedKeys.contains(KeyCode.Z);
+                case "S": return pressedKeys.contains(KeyCode.S);
+                case "Q": return pressedKeys.contains(KeyCode.Q);
+                case "D": return pressedKeys.contains(KeyCode.D);
+                case "T": return pressedKeys.contains(KeyCode.T);
+                case "G": return pressedKeys.contains(KeyCode.G);
+                case "F": return pressedKeys.contains(KeyCode.F);
+                case "H": return pressedKeys.contains(KeyCode.H);
+                case "R": return pressedKeys.contains(KeyCode.R);
+                case "I": return pressedKeys.contains(KeyCode.I);
+                case "K": return pressedKeys.contains(KeyCode.K);
+                case "J": return pressedKeys.contains(KeyCode.J);
+                case "L": return pressedKeys.contains(KeyCode.L);
+                case "U": return pressedKeys.contains(KeyCode.U);
+                default: return false;
+            }
+        }
     }
 
     private boolean canMoveTo(int x, int y) {

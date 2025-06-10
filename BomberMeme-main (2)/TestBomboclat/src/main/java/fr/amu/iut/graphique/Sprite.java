@@ -59,7 +59,9 @@ public class Sprite {
     |--------------------------------------------------------------------------
      */
 
-
+    public static final Sprite bomb_1 = new Sprite(3, 4);
+    public static final Sprite bomb_2 = new Sprite(3, 5);
+    public static final Sprite bomb_3 = new Sprite(3, 6);
 
     /*
     |--------------------------------------------------------------------------
@@ -67,6 +69,30 @@ public class Sprite {
     |--------------------------------------------------------------------------
      */
 
+    public static final Sprite Center_flameSegment_1 = new Sprite(4, 0);
+    public static final Sprite Center_flameSegment_2 = new Sprite(5, 0);
+    public static final Sprite Center_flameSegment_3 = new Sprite(6, 0);
+    public static final Sprite Center_flameSegment_4 = new Sprite(7, 0);
+
+    public static final Sprite top_flameSegment_1 = new Sprite(4, 1);
+    public static final Sprite top_flameSegment_2 = new Sprite(4, 2);
+    public static final Sprite top_flameSegment_3 = new Sprite(4, 3);
+    public static final Sprite top_flameSegment_4 = new Sprite(4, 4);
+
+    public static final Sprite center_top_flamSegment_1 = new Sprite(5, 1);
+    public static final Sprite center_top_flamSegment_2 = new Sprite(5, 2);
+    public static final Sprite center_top_flamSegment_3 = new Sprite(5, 3);
+    public static final Sprite center_top_flamSegment_4 = new Sprite(5, 4);
+
+    public static final Sprite center_bottom_flamSegment_1 = new Sprite(6, 1);
+    public static final Sprite center_bottom_flamSegment_2 = new Sprite(6, 2);
+    public static final Sprite center_bottom_flamSegment_3 = new Sprite(6, 3);
+    public static final Sprite center_bottom_flamSegment_4 = new Sprite(6, 4);
+
+    public static final Sprite bottom_flameSegment_1 = new Sprite(7, 1);
+    public static final Sprite bottom_flameSegment_2 = new Sprite(7, 2);
+    public static final Sprite bottom_flameSegment_3 = new Sprite(7, 3);
+    public static final Sprite bottom_flameSegment_4 = new Sprite(7, 4);
 
 
     /*
