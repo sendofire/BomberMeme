@@ -1,39 +1,35 @@
 package fr.amu.iut.Obstacle;
 
-import java.util.ArrayList;
-
 public class Murs {
+    private int x, y;
+    private boolean cassable;
+    private boolean detruit;
 
-    ArrayList<Integer> idM = new ArrayList<Integer>();
-    int x, y;
-
-    public Murs(int x, int y, Boolean cassable) {
+    public Murs(int x, int y, boolean cassable) {
         this.x = x;
         this.y = y;
-        idM.add(x, y);
+        this.cassable = cassable;
+        this.detruit = false;
     }
 
-    public ArrayList<Integer> getIdM() {
-        return idM;
+    public void detruire() {
+        if (cassable) {
+            detruit = true;
+        }
     }
 
-    public void setIdM(ArrayList<Integer> idM) {
-        this.idM = idM;
+    public boolean peutEtreDetruit() {
+        return cassable && !detruit;
     }
 
-    public int getX() {
-        return x;
-    }
+    // Getters et setters
+    public int getX() { return x; }
+    public int getY() { return y; }
+    public boolean isCassable() { return cassable; }
+    public boolean isDetruit() { return detruit; }
 
-    public int getY() {
-        return y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
+    public void setCassable(boolean cassable) { this.cassable = cassable; }
+    public void setDetruit(boolean detruit) { this.detruit = detruit; }
 }

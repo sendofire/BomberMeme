@@ -1,43 +1,47 @@
 package fr.amu.iut.graphique;
 
-import fr.amu.iut.JeuMain;
 import javafx.scene.image.Image;
-
-import java.io.InputStream;
+import javafx.scene.image.PixelReader;
 
 public class SpriteSheet {
-    private final String path;
-    private final int size;
-    private final int[] pixels;
+    private static final String SPRITE_SHEET_PATH = "/textures/AmongUs-assets.png";
+    private static final int SIZE = 256; // Taille de la spritesheet
+    private int[] pixels;
 
-    public static final SpriteSheet spriteSheet = new SpriteSheet("textures/AmongUs-assets.png", 256);
+    public static SpriteSheet spriteSheet = new SpriteSheet();
 
-    public SpriteSheet(String path, int size) {
-        this.path = path;
-        this.size = size;
-        pixels = new int[size * size];
+    public SpriteSheet() {
         load();
+    }
+
+    private void load() {
+        try {
+            Image image = new Image(getClass().getResourceAsStream(SPRITE_SHEET_PATH));
+            int width = (int) image.getWidth();
+            int height = (int) image.getHeight();
+            pixels = new int[width * height];
+
+            PixelReader pixelReader = image.getPixelReader();
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    pixels[x + y * width] = pixelReader.getArgb(x, y);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement de la spritesheet: " + e.getMessage());
+            // Créer des pixels par défaut si l'image ne peut pas être chargée
+            pixels = new int[SIZE * SIZE];
+            for (int i = 0; i < pixels.length; i++) {
+                pixels[i] = 0xFF000000; // Noir par défaut
+            }
+        }
     }
 
     public int[] getPixels() {
         return pixels;
     }
 
-    private void load() {
-        InputStream inputImage = JeuMain.class.getResourceAsStream(path);
-
-        assert inputImage != null;
-        Image image = new Image(inputImage);
-
-        //Get RGB color from image
-        for (int y = 0; y < size; ++y) {
-            for(int x = 0; x < size; ++x) {
-                pixels[x + y * size] = image.getPixelReader().getArgb(x, y);
-            }
-        }
-    }
-
     public int getSize() {
-        return size;
+        return SIZE;
     }
 }
