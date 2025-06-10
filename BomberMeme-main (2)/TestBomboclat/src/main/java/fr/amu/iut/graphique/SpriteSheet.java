@@ -29,10 +29,45 @@ public class SpriteSheet {
             }
         } catch (Exception e) {
             System.err.println("Erreur lors du chargement de la spritesheet: " + e.getMessage());
-            // Créer des pixels par défaut si l'image ne peut pas être chargée
+            // Créer des pixels par défaut avec des couleurs différentes pour chaque sprite
             pixels = new int[SIZE * SIZE];
-            for (int i = 0; i < pixels.length; i++) {
-                pixels[i] = 0xFF000000; // Noir par défaut
+            createDefaultSprites();
+        }
+    }
+
+    private void createDefaultSprites() {
+        // Créer des sprites colorés par défaut
+        for (int spriteY = 0; spriteY < SIZE / 16; spriteY++) {
+            for (int spriteX = 0; spriteX < SIZE / 16; spriteX++) {
+                int color = generateSpriteColor(spriteX, spriteY);
+                fillSpriteArea(spriteX * 16, spriteY * 16, 16, 16, color);
+            }
+        }
+    }
+
+    private int generateSpriteColor(int spriteX, int spriteY) {
+        // Générer des couleurs spécifiques pour différents types de sprites
+        if (spriteX == 5 && spriteY == 0) return 0xFF808080; // Sol - gris
+        if (spriteX == 7 && spriteY == 0) return 0xFF8B4513; // Brique - marron
+        if (spriteX == 6 && spriteY == 0) return 0xFF2F2F2F; // Mur - gris foncé
+        if (spriteX == 4 && spriteY == 1) return 0xFF00FF00; // Porte - vert
+
+        // Joueurs colorés
+        if (spriteY == 0) return 0xFFFF0000; // Rouge
+        if (spriteY == 1) return 0xFF0000FF; // Bleu
+        if (spriteY == 2) return 0xFF00FF00; // Vert
+        if (spriteY == 3) return 0xFFFFFF00; // Jaune
+
+        // Couleur par défaut
+        return 0xFF000000 | ((spriteX * 50) << 16) | ((spriteY * 50) << 8) | ((spriteX + spriteY) * 30);
+    }
+
+    private void fillSpriteArea(int startX, int startY, int width, int height, int color) {
+        for (int y = startY; y < startY + height && y < SIZE; y++) {
+            for (int x = startX; x < startX + width && x < SIZE; x++) {
+                if (x >= 0 && y >= 0) {
+                    pixels[x + y * SIZE] = color;
+                }
             }
         }
     }
