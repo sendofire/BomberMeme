@@ -20,7 +20,7 @@ public class JeuMain extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/Menu.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("BOMBOCLAT");

@@ -6,11 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
 
 <GridPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="fr.amu.iut.MenuControl"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="600.0" prefWidth="800.0">
     <Text id="welcome-text" text="PARMETREEEEEEEEEEEEEEEEEEE"/>
+    <Button alignment="CENTER" layoutX="280.0" layoutY="365.0" fx:id="switchHome" onAction="#switchHome" style="-fx-background-color: transparent;" text="RETOUR">
+        <font>
+            <Font size="42"/>
+        </font>
+    </Button>
 
 </GridPane>
