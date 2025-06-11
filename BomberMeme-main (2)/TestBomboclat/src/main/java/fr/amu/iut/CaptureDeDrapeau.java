@@ -1,15 +1,12 @@
 package fr.amu.iut;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import static javafx.application.Application.launch;
 
-public class captureDeDrapeau extends Jeu {
+public class CaptureDeDrapeau {
 
         private final int TILE_SIZE = 40;
         private final int WIDTH = 15;
@@ -24,21 +21,18 @@ public class captureDeDrapeau extends Jeu {
         private boolean hasFlag = false;
         private boolean[][] walls = new boolean[WIDTH][HEIGHT];
 
-        private Canvas canvas = new Canvas(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        private Text scoreText = new Text("Red: 0");
-
+        private Canvas canvas;
+        private Text scoreText;
         private int redScore = 0;
 
-        @Override
-        public void start(Stage primaryStage) {
-            VBox root = new VBox();
+        public void start(Pane root) {
+            canvas = new Canvas(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
+            scoreText = new Text("Red: 0");
             root.getChildren().addAll(canvas, scoreText);
-            Scene scene = new Scene(root);
-            GraphicsContext gc = canvas.getGraphicsContext2D();
+            draw();
 
-            draw(gc);
-
-            scene.setOnKeyPressed(e -> {
+            root.setFocusTraversable(true);
+            root.setOnKeyPressed(e -> {
                 int newX = playerX;
                 int newY = playerY;
 
@@ -52,16 +46,13 @@ public class captureDeDrapeau extends Jeu {
                     playerY = newY;
                     checkFlagPickup();
                     checkFlagCapture();
-                    draw(gc);
+                    draw();
                 }
             });
-
-            primaryStage.setTitle("Capture the Flag - Bomberman Mode");
-            primaryStage.setScene(scene);
-            primaryStage.show();
         }
 
-        private void draw(GraphicsContext gc) {
+        private void draw() {
+            GraphicsContext gc = canvas.getGraphicsContext2D();
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
             // Background
@@ -108,9 +99,5 @@ public class captureDeDrapeau extends Jeu {
 
         private boolean isInBounds(int x, int y) {
             return x >= 0 && y >= 0 && x < WIDTH && y < HEIGHT;
-        }
-
-        public static void main(String[] args) {
-            launch(args);
         }
     }
