@@ -1,5 +1,10 @@
 package fr.amu.iut.Personnages;
 
+import fr.amu.iut.graphique.Sprite;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Joueurs {
     private int idJ;
     private int x, y;
@@ -21,6 +26,11 @@ public class Joueurs {
         this.direction = "DOWN";
         this.alive = true;
     }
+
+    //Initialize up animation sprites
+    //List<Sprite> up = new ArrayList<>();
+    //up.add(Sprite.player_up_rouge);
+
 
     public void perdreVie() {
         vies--;

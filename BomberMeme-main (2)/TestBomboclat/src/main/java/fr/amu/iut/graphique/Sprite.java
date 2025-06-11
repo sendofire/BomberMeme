@@ -5,165 +5,308 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 
-import static fr.amu.iut.graphique.SpriteSheet.spriteSheet;
+import java.util.Objects;
 
 public class Sprite {
-    private static final int DEFAULT_SIZE = 16;
-    private static final int SCALED_FACTOR = 3; //times the default size
-    private static final int SCALED_SIZE = DEFAULT_SIZE * SCALED_FACTOR;
-    private static final int TRANSPARENT = 0xffff00ff;
-    private final int[] pixels;
-    private final int X;
-    private final int Y;
+    private static final int SCALED_FACTOR = 3; // Facteur d'agrandissement
+    private static final String TEXTURE_PATH = "/fr/amu/iut/textures/";
 
-    /*
-	|--------------------------------------------------------------------------
-	| Board sprites
-	|--------------------------------------------------------------------------
-	 */
-    public static final Sprite sol = new Sprite( 5, 0);
-    public static final Sprite brick = new Sprite( 7, 0);
-    public static final Sprite brick2 = new Sprite( 7, 1);
-    public static final Sprite mur = new Sprite( 6, 0);
-    public static final Sprite porte = new Sprite(4 , 1);
+    private Image texture;
+    private final String imagePath;
 
     /*
     |--------------------------------------------------------------------------
-    | Bomber Sprites
+    | Board sprites
     |--------------------------------------------------------------------------
      */
-
-    public static final Sprite player_down_rouge = new Sprite(0, 0);
-    public static final Sprite player_up_rouge = new Sprite(1, 0);
-    public static final Sprite palyer_left_rouge = new Sprite(2, 0);
-    public static final Sprite palyer_right_rouge = new Sprite(3, 0);
-
-    public static final Sprite player_down_bleu = new Sprite(0, 1);
-    public static final Sprite player_up_bleu = new Sprite(1, 1);
-    public static final Sprite palyer_left_bleu = new Sprite(2, 1);
-    public static final Sprite palyer_right_bleu = new Sprite(3, 1);
-
-    public static final Sprite player_down_vert = new Sprite(0, 2);
-    public static final Sprite player_up_vert = new Sprite(1, 2);
-    public static final Sprite palyer_left_vert = new Sprite(2, 2);
-    public static final Sprite palyer_right_vert = new Sprite(3, 2);
-
-    public static final Sprite player_down_jaune = new Sprite(0, 3);
-    public static final Sprite player_up_jaune = new Sprite(1, 3);
-    public static final Sprite palyer_left_jaune = new Sprite(2, 3);
-    public static final Sprite palyer_right_jaune = new Sprite(3, 3);
+    public static final Sprite sol = new Sprite("sol.png");
+    public static final Sprite brick = new Sprite("amongUs-crate.png");
+    public static final Sprite brick2 = new Sprite("amongUs-crate.png"); // Même image pour l'instant
+    public static final Sprite mur = new Sprite("mur.png");
 
     /*
     |--------------------------------------------------------------------------
-    | Bomb Sprites
+    | Bomber Sprites - Rouge
     |--------------------------------------------------------------------------
      */
-
-    public static final Sprite bomb_1 = new Sprite(3, 4);
-    public static final Sprite bomb_2 = new Sprite(3, 5);
-    public static final Sprite bomb_3 = new Sprite(3, 6);
+    public static final Sprite player_down_rouge = new Sprite("amongUs-red-down.png");
+    public static final Sprite player_up_rouge = new Sprite("amongUs-red-up.png");
+    public static final Sprite palyer_left_rouge = new Sprite("amongUs-red-left.png");
+    public static final Sprite palyer_right_rouge = new Sprite("amongUs-red-right.png");
 
     /*
     |--------------------------------------------------------------------------
-    | FlameSegment Sprites
+    | Bomber Sprites - Bleu
     |--------------------------------------------------------------------------
      */
+    public static final Sprite player_down_bleu = new Sprite("amongUs-blue-down.png");
+    public static final Sprite player_up_bleu = new Sprite("amongUs-blue-up.png");
+    public static final Sprite palyer_left_bleu = new Sprite("amongUs-blue-left.png");
+    public static final Sprite palyer_right_bleu = new Sprite("amongUs-blue-right.png");
 
-    public static final Sprite Center_flameSegment_1 = new Sprite(4, 0);
-    public static final Sprite Center_flameSegment_2 = new Sprite(5, 0);
-    public static final Sprite Center_flameSegment_3 = new Sprite(6, 0);
-    public static final Sprite Center_flameSegment_4 = new Sprite(7, 0);
+    /*
+    |--------------------------------------------------------------------------
+    | Bomber Sprites - Vert
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite player_down_vert = new Sprite("amongUs-green-down.png");
+    public static final Sprite player_up_vert = new Sprite("amongUs-green-up.png");
+    public static final Sprite palyer_left_vert = new Sprite("amongUs-green-left.png");
+    public static final Sprite palyer_right_vert = new Sprite("amongUs-green-right.png");
 
-    public static final Sprite top_flameSegment_1 = new Sprite(4, 1);
-    public static final Sprite top_flameSegment_2 = new Sprite(4, 2);
-    public static final Sprite top_flameSegment_3 = new Sprite(4, 3);
-    public static final Sprite top_flameSegment_4 = new Sprite(4, 4);
+    /*
+    |--------------------------------------------------------------------------
+    | Bomber Sprites - Jaune
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite player_down_jaune = new Sprite("amongUs-yellow-down.png");
+    public static final Sprite player_up_jaune = new Sprite("amongUs-yellow-up.png");
+    public static final Sprite palyer_left_jaune = new Sprite("amongUs-yellow-left.png");
+    public static final Sprite palyer_right_jaune = new Sprite("amongUs-yellow-right.png");
 
-    public static final Sprite center_top_flamSegment_1 = new Sprite(5, 1);
-    public static final Sprite center_top_flamSegment_2 = new Sprite(5, 2);
-    public static final Sprite center_top_flamSegment_3 = new Sprite(5, 3);
-    public static final Sprite center_top_flamSegment_4 = new Sprite(5, 4);
+    /*
+    |--------------------------------------------------------------------------
+    | Bomb Sprites (utilise les mêmes images en rotation ou par défaut)
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite bomb_1 = new Sprite("amongUs-bomb-1.png"); // Utilise crate en attendant
+    public static final Sprite bomb_2 = new Sprite("amongUs-bomb-2.png");
+    public static final Sprite bomb_3 = new Sprite("amongUs-bomb-3.png");
 
-    public static final Sprite center_bottom_flamSegment_1 = new Sprite(6, 1);
-    public static final Sprite center_bottom_flamSegment_2 = new Sprite(6, 2);
-    public static final Sprite center_bottom_flamSegment_3 = new Sprite(6, 3);
-    public static final Sprite center_bottom_flamSegment_4 = new Sprite(6, 4);
+    /*
+    |--------------------------------------------------------------------------
+    | FlameSegment Sprites - Centre
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite Center_flameSegment_1 = new Sprite("amongUs-explosion-center-1.png");
+    public static final Sprite Center_flameSegment_2 = new Sprite("amongUs-explosion-center-2.png");
+    public static final Sprite Center_flameSegment_3 = new Sprite("amongUs-explosion-center-3.png");
+    public static final Sprite Center_flameSegment_4 = new Sprite("amongUs-explosion-center-4.png");
 
-    public static final Sprite bottom_flameSegment_1 = new Sprite(7, 1);
-    public static final Sprite bottom_flameSegment_2 = new Sprite(7, 2);
-    public static final Sprite bottom_flameSegment_3 = new Sprite(7, 3);
-    public static final Sprite bottom_flameSegment_4 = new Sprite(7, 4);
+    /*
+    |--------------------------------------------------------------------------
+    | FlameSegment Sprites - Fins
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite top_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
+    public static final Sprite top_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
+    public static final Sprite top_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
+    public static final Sprite top_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
 
+    public static final Sprite bottom_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
+    public static final Sprite bottom_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
+    public static final Sprite bottom_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
+    public static final Sprite bottom_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+
+    public static final Sprite left_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
+    public static final Sprite left_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
+    public static final Sprite left_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
+    public static final Sprite left_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+
+    public static final Sprite right_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
+    public static final Sprite right_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
+    public static final Sprite right_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
+    public static final Sprite right_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+
+    /*
+    |--------------------------------------------------------------------------
+    | FlameSegment Sprites - Milieux
+    |--------------------------------------------------------------------------
+     */
+    public static final Sprite center_top_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
+    public static final Sprite center_top_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
+    public static final Sprite center_top_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
+    public static final Sprite center_top_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+
+    public static final Sprite center_bottom_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
+    public static final Sprite center_bottom_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
+    public static final Sprite center_bottom_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
+    public static final Sprite center_bottom_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+
+    public static final Sprite center_left_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
+    public static final Sprite center_left_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
+    public static final Sprite center_left_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
+    public static final Sprite center_left_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+
+    public static final Sprite center_right_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
+    public static final Sprite center_right_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
+    public static final Sprite center_right_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
+    public static final Sprite center_right_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
 
     /*
     |--------------------------------------------------------------------------
     | Powerups
     |--------------------------------------------------------------------------
      */
+    public static final Sprite bomb_Up = new Sprite("amongUs-powerUP-bomb.png");
+    public static final Sprite fire_Up = new Sprite("amongUs-powerUP-explosion.png");
+    public static final Sprite speed_Up = new Sprite("amongUs-powerUP-speed.png");
 
-
-
-    private Sprite(int x, int y) {
-        X = x * DEFAULT_SIZE;
-        Y = y * DEFAULT_SIZE;
-        pixels = new int[DEFAULT_SIZE * DEFAULT_SIZE];
-        load();
+    /**
+     * Constructeur privé pour créer un sprite à partir d'un fichier image
+     */
+    private Sprite(String imageName) {
+        this.imagePath = TEXTURE_PATH + imageName;
+        loadTexture();
     }
 
-    public static int getScaledSize() {
-        return SCALED_SIZE;
-    }
+    /**
+     * Charge la texture depuis le fichier PNG
+     */
+    private void loadTexture() {
+        try {
+            Image originalImage = new Image(Objects.requireNonNull(
+                    getClass().getResourceAsStream(imagePath)));
 
-    private void load() {
-        for (int y = 0; y < DEFAULT_SIZE; ++y) {
-            System.arraycopy(spriteSheet.getPixels(), X + (y + Y) * spriteSheet.getSize(), pixels, y * 16, DEFAULT_SIZE);
+            if (originalImage.isError()) {
+                throw new RuntimeException("Erreur lors du chargement de l'image: " + imagePath);
+            }
+
+            // Agrandir l'image
+            this.texture = upscale(originalImage);
+            System.out.println("Image chargée avec succès: " + imagePath);
+
+        } catch (Exception e) {
+            System.err.println("Impossible de charger l'image: " + imagePath);
+            System.err.println("Erreur: " + e.getMessage());
+
+            // Créer une texture de fallback colorée
+            this.texture = createFallbackTexture();
         }
     }
 
     /**
-     * Return an upscaled texture.
+     * Crée une texture de fallback en cas d'échec de chargement
      */
-    public Image getTexture() {
-        WritableImage image = new WritableImage(DEFAULT_SIZE, DEFAULT_SIZE);
-        PixelWriter pixelWriter = image.getPixelWriter();
+    private Image createFallbackTexture() {
+        int size = 48; // Taille finale après agrandissement
+        WritableImage fallback = new WritableImage(size, size);
+        PixelWriter pixelWriter = fallback.getPixelWriter();
 
-        for (int x = 0; x < DEFAULT_SIZE; ++x) {
-            for (int y = 0; y < DEFAULT_SIZE; ++y) {
-                if (pixels[x + y * DEFAULT_SIZE] == TRANSPARENT) {
-                    pixelWriter.setArgb(x, y, 0);
+        // Couleur basée sur le nom de l'image
+        int color = generateFallbackColor();
+
+        // Créer un carré coloré simple
+        for (int x = 0; x < size; x++) {
+            for (int y = 0; y < size; y++) {
+                // Bordure noire
+                if (x == 0 || y == 0 || x == size - 1 || y == size - 1) {
+                    pixelWriter.setArgb(x, y, 0xFF000000);
                 } else {
-                    pixelWriter.setArgb(x, y, pixels[x + y * DEFAULT_SIZE]);
+                    pixelWriter.setArgb(x, y, color);
                 }
             }
         }
 
-        return upscale(image);
+        System.out.println("Texture de fallback créée pour: " + imagePath);
+        return fallback;
     }
 
     /**
-     * Upscale image.
-     * @param inputImage input image
-     * @return An upscaled image
+     * Génère une couleur de fallback basée sur le nom de l'image
      */
-    private Image upscale(WritableImage inputImage) {
+    private int generateFallbackColor() {
+        String name = imagePath.toLowerCase();
+
+        // Couleurs spécifiques selon le type
+        if (name.contains("red")) return 0xFFFF0000;
+        if (name.contains("blue")) return 0xFF0000FF;
+        if (name.contains("green")) return 0xFF00FF00;
+        if (name.contains("yellow")) return 0xFFFFFF00;
+        if (name.contains("explosion")) return 0xFFFF4500;
+        if (name.contains("powerup")) return 0xFFFFD700;
+        if (name.contains("crate")) return 0xFF8B4513;
+        if (name.contains("mur")) return 0xFF808080;
+        if (name.contains("sol")) return 0xFF90EE90;
+
+        // Couleur par défaut
+        return 0xFF888888;
+    }
+
+    /**
+     * Agrandit l'image d'origine
+     */
+    private Image upscale(Image inputImage) {
         final int width = (int) inputImage.getWidth();
         final int height = (int) inputImage.getHeight();
 
-        WritableImage outputImage = new WritableImage(width * SCALED_FACTOR, height * SCALED_FACTOR);
+        WritableImage outputImage = new WritableImage(
+                width * SCALED_FACTOR,
+                height * SCALED_FACTOR
+        );
+
         PixelReader pixelReader = inputImage.getPixelReader();
         PixelWriter pixelWriter = outputImage.getPixelWriter();
 
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 final int argb = pixelReader.getArgb(x, y);
-                for (int scaledY = 0; scaledY < SCALED_FACTOR; ++scaledY) {
-                    for (int scaledX = 0; scaledX < SCALED_FACTOR; ++scaledX) {
-                        pixelWriter.setArgb(x * SCALED_FACTOR + scaledX, y * SCALED_FACTOR + scaledY, argb);
+
+                // Dupliquer le pixel selon le facteur d'agrandissement
+                for (int scaledY = 0; scaledY < SCALED_FACTOR; scaledY++) {
+                    for (int scaledX = 0; scaledX < SCALED_FACTOR; scaledX++) {
+                        pixelWriter.setArgb(
+                                x * SCALED_FACTOR + scaledX,
+                                y * SCALED_FACTOR + scaledY,
+                                argb
+                        );
                     }
                 }
             }
         }
 
         return outputImage;
+    }
+
+    /**
+     * Retourne la texture agrandie et prête à l'usage
+     */
+    public Image getTexture() {
+        return texture;
+    }
+
+    /**
+     * Retourne la taille agrandie (utile pour le positionnement)
+     */
+    public static int getScaledSize() {
+        return 16 * SCALED_FACTOR; // 48 pixels
+    }
+
+    /**
+     * Méthode utilitaire pour vérifier si une image existe
+     */
+    public static boolean imageExists(String imageName) {
+        try {
+            return Sprite.class.getResourceAsStream(TEXTURE_PATH + imageName) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Méthode pour lister toutes les images disponibles (debug)
+     */
+    public static void listAvailableImages() {
+        String[] imageNames = {
+                "sol.png", "mur.png", "amongUs-crate.png",
+                "amongUs-red-down.png", "amongUs-red-up.png", "amongUs-red-left.png", "amongUs-red-right.png",
+                "amongUs-blue-down.png", "amongUs-blue-up.png", "amongUs-blue-left.png", "amongUs-blue-right.png",
+                "amongUs-green-down.png", "amongUs-green-up.png", "amongUs-green-left.png", "amongUs-green-right.png",
+                "amongUs-yellow-down.png", "amongUs-yellow-up.png", "amongUs-yellow-left.png", "amongUs-yellow-right.png",
+                "amongUs-explosion-center-1.png", "amongUs-explosion-center-2.png",
+                "amongUs-explosion-center-3.png", "amongUs-explosion-center-4.png",
+                "amongUs-explosion-middle-1.png", "amongUs-explosion-middle-2.png",
+                "amongUs-explosion-middle-3.png", "amongUs-explosion-middle-4.png",
+                "amongUs-explosion-last-1.png", "amongUs-explosion-last-2.png",
+                "amongUs-explosion-last-3.png", "amongUs-explosion-last-4.png",
+                "amongUs-powerUP-bomb.png", "amongUs-powerUP-explosion.png", "amongUs-powerUP-speed.png"
+        };
+
+        System.out.println("=== Vérification des images disponibles ===");
+        for (String imageName : imageNames) {
+            boolean exists = imageExists(imageName);
+            System.out.println(imageName + ": " + (exists ? "✓" : "✗"));
+        }
+        System.out.println("============================================");
     }
 }

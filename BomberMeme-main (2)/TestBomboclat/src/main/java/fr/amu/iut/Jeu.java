@@ -73,6 +73,7 @@ public class Jeu implements Initializable {
         initializeGame();
         setupKeyHandlers();
         startGameLoop();
+
     }
 
     private void initializeCanvas() {
@@ -294,6 +295,7 @@ public class Jeu implements Initializable {
         if (x < 0 || y < 0 || x >= GRID_WIDTH || y >= GRID_HEIGHT) {
             return false;
         }
+        // Les joueurs peuvent marcher sur les power-ups et les cases vides
         return gameBoard[y][x] == EMPTY || gameBoard[y][x] == POWERUP;
     }
 
@@ -360,8 +362,8 @@ public class Jeu implements Initializable {
 
                 if (gameBoard[y][x] == BRICK) {
                     gameBoard[y][x] = EMPTY;
-                    // Chance de créer un powerup
-                    if (random.nextDouble() < 0.3) {
+                    // Chance de créer un powerup (50% de chance)
+                    if (random.nextDouble() < 0.5) {
                         createPowerUp(x, y);
                     }
                     break;
@@ -375,6 +377,9 @@ public class Jeu implements Initializable {
 
         Explosions explosion = new Explosions(x, y);
         explosions.add(explosion);
+
+        // Détruire un power-up s'il y en a un à cette position
+        powerUps.removeIf(powerUp -> powerUp.getX() == x && powerUp.getY() == y);
 
         if (gameBoard[y][x] != WALL) {
             gameBoard[y][x] = EXPLOSION;
@@ -397,6 +402,8 @@ public class Jeu implements Initializable {
         PowerUps powerUp = new PowerUps(x, y, randomType);
         powerUps.add(powerUp);
         gameBoard[y][x] = POWERUP;
+
+        System.out.println("Power-up créé à (" + x + ", " + y + ") de type: " + randomType);
     }
 
     private void checkPowerUpCollection(JoueurMultiplayer player) {
@@ -409,6 +416,8 @@ public class Jeu implements Initializable {
                 iterator.remove();
                 gameBoard[powerUp.getY()][powerUp.getX()] = EMPTY;
                 gameScore += powerUp.getPoints();
+
+                System.out.println("Joueur " + player.getCouleur() + " a ramassé un power-up de type: " + powerUp.getType());
             }
         }
     }
@@ -417,18 +426,23 @@ public class Jeu implements Initializable {
         switch (powerUp.getType()) {
             case BOMB_RANGE:
                 player.ameliorerPortee();
+                System.out.println("Portée des bombes améliorée pour " + player.getCouleur() + " : " + player.getPorteBombe());
                 break;
             case BOMB_COUNT:
                 player.ameliorerNombreBombes();
+                System.out.println("Nombre de bombes amélioré pour " + player.getCouleur() + " : " + player.getNombreBombes());
                 break;
             case SPEED_UP:
                 player.ameliorerVitesse();
+                System.out.println("Vitesse améliorée pour " + player.getCouleur() + " : " + player.getVitesse());
                 break;
             case EXTRA_LIFE:
                 player.gagnerVie();
+                System.out.println("Vie supplémentaire pour " + player.getCouleur() + " : " + player.getVies());
                 break;
             case INVINCIBILITY:
                 player.setInvincible(true, 5000); // 5 secondes
+                System.out.println("Invincibilité temporaire pour " + player.getCouleur());
                 break;
         }
     }
@@ -450,6 +464,7 @@ public class Jeu implements Initializable {
                 if (gameBoard[powerUp.getY()][powerUp.getX()] == POWERUP) {
                     gameBoard[powerUp.getY()][powerUp.getX()] = EMPTY;
                 }
+                System.out.println("Power-up expiré à (" + powerUp.getX() + ", " + powerUp.getY() + ")");
             }
         }
     }
@@ -497,19 +512,19 @@ public class Jeu implements Initializable {
         gc.save();
         gc.translate(0, BANNER_HEIGHT);
 
-        // Dessiner le plateau
+        // Dessiner le plateau avec sprites
         renderBoard();
 
-        // Dessiner les powerups
+        // Dessiner les powerups avec sprites (AVANT les bombes et joueurs)
         renderPowerUps();
 
-        // Dessiner les bombes
+        // Dessiner les bombes avec sprites
         renderBombs();
 
-        // Dessiner les explosions
+        // Dessiner les explosions avec sprites
         renderExplosions();
 
-        // Dessiner les joueurs
+        // Dessiner les joueurs avec sprites (EN DERNIER pour qu'ils soient au-dessus)
         renderPlayers();
 
         gc.restore();
@@ -521,8 +536,9 @@ public class Jeu implements Initializable {
     private void renderBanner() {
         int alivePlayers = (int) players.stream().filter(JoueurMultiplayer::isAlive).count();
         int totalBombs = bombs.size();
+        int totalPowerUps = powerUps.size();
 
-        gameBanner.render(alivePlayers, totalBombs, 0, gameScore);
+        gameBanner.render(alivePlayers, totalBombs, totalPowerUps, gameScore);
     }
 
     private void renderBoard() {
@@ -531,17 +547,18 @@ public class Jeu implements Initializable {
                 int tileX = x * TILE_SIZE;
                 int tileY = y * TILE_SIZE;
 
+                // Toujours dessiner le sol en premier
+                gc.drawImage(Sprite.sol.getTexture(), tileX, tileY);
+
+                // Puis dessiner les éléments par-dessus selon le type
                 switch (gameBoard[y][x]) {
-                    case EMPTY:
-                    case POWERUP:
-                        gc.drawImage(Sprite.sol.getTexture(), tileX, tileY);
-                        break;
                     case WALL:
                         gc.drawImage(Sprite.mur.getTexture(), tileX, tileY);
                         break;
                     case BRICK:
                         gc.drawImage(Sprite.brick.getTexture(), tileX, tileY);
                         break;
+                    // Les cases EMPTY, POWERUP, BOMB et EXPLOSION sont gérées ailleurs
                 }
             }
         }
@@ -550,56 +567,173 @@ public class Jeu implements Initializable {
     private void renderPowerUps() {
         for (PowerUps powerUp : powerUps) {
             if (!powerUp.isCollected()) {
-                int x = powerUp.getX() * TILE_SIZE + TILE_SIZE / 4;
-                int y = powerUp.getY() * TILE_SIZE + TILE_SIZE / 4;
+                int x = powerUp.getX() * TILE_SIZE;
+                int y = powerUp.getY() * TILE_SIZE;
 
-                // Couleur selon le type de powerup
-                switch (powerUp.getType()) {
-                    case BOMB_RANGE:
-                        gc.setFill(Color.ORANGE);
-                        break;
-                    case BOMB_COUNT:
-                        gc.setFill(Color.YELLOW);
-                        break;
-                    case SPEED_UP:
-                        gc.setFill(Color.GREEN);
-                        break;
-                    case EXTRA_LIFE:
-                        gc.setFill(Color.PINK);
-                        break;
-                    case INVINCIBILITY:
-                        gc.setFill(Color.PURPLE);
-                        break;
+                // Le sol est déjà dessiné dans renderBoard()
+
+                // Dessiner le sprite du power-up selon son type
+                Sprite powerUpSprite = getPowerUpSprite(powerUp.getType());
+                if (powerUpSprite != null) {
+                    gc.drawImage(powerUpSprite.getTexture(), x, y);
                 }
-                gc.fillOval(x, y, TILE_SIZE / 2, TILE_SIZE / 2);
+
+                // Effet de brillance/pulsation
+                double opacity = 0.2 + 0.2 * Math.sin(System.currentTimeMillis() / 300.0);
+                gc.setGlobalAlpha(opacity);
+                gc.setFill(Color.WHITE);
+                gc.fillRect(x + 5, y + 5, TILE_SIZE - 10, TILE_SIZE - 10);
+                gc.setGlobalAlpha(1.0);
             }
         }
     }
 
-    private void renderBombs() {
-        gc.setFill(Color.RED);
-        for (Bombes bomb : bombs) {
-            int x = bomb.getX() * TILE_SIZE + TILE_SIZE / 4;
-            int y = bomb.getY() * TILE_SIZE + TILE_SIZE / 4;
-            gc.fillOval(x, y, TILE_SIZE / 2, TILE_SIZE / 2);
+    private Sprite getPowerUpSprite(PowerUps.PowerupType type) {
+        switch (type) {
+            case BOMB_RANGE:
+                return Sprite.fire_Up;
+            case BOMB_COUNT:
+                return Sprite.bomb_Up;
+            case SPEED_UP:
+                return Sprite.speed_Up;
+            default:
+                return Sprite.bomb_Up; // fallback
+        }
+    }
 
-            // Afficher le temps restant
-            gc.setFill(Color.WHITE);
-            gc.setFont(new Font("Arial", 12));
-            gc.setTextAlign(TextAlignment.CENTER);
-            long timeLeft = bomb.getTimeRemaining() / 1000;
-            gc.fillText(String.valueOf(timeLeft), x + TILE_SIZE / 4, y + TILE_SIZE / 4);
-            gc.setFill(Color.RED);
+    private void renderBombs() {
+        for (Bombes bomb : bombs) {
+            int x = bomb.getX() * TILE_SIZE;
+            int y = bomb.getY() * TILE_SIZE;
+
+            // Le sol est déjà dessiné dans renderBoard()
+
+            // Animation de la bombe selon le temps restant
+            long timeLeft = bomb.getTimeRemaining();
+            Sprite bombSprite;
+
+            if (timeLeft > 2000) {
+                bombSprite = Sprite.bomb_1;
+            } else if (timeLeft > 1000) {
+                bombSprite = Sprite.bomb_2;
+            } else {
+                bombSprite = Sprite.bomb_3;
+            }
+
+            // Effet de clignotement quand la bombe va exploser
+            if (timeLeft <= 1000 && System.currentTimeMillis() % 200 < 100) {
+                gc.setGlobalAlpha(0.5);
+            }
+
+            gc.drawImage(bombSprite.getTexture(), x, y);
+            gc.setGlobalAlpha(1.0);
+
         }
     }
 
     private void renderExplosions() {
-        gc.setFill(Color.ORANGE);
         for (Explosions explosion : explosions) {
             int x = explosion.getX() * TILE_SIZE;
             int y = explosion.getY() * TILE_SIZE;
-            gc.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+
+            // Le sol est déjà dessiné dans renderBoard()
+
+            // Déterminer le type d'explosion et utiliser les sprites appropriés
+            Sprite explosionSprite = determineExplosionSprite(explosion);
+
+            // Effet de scintillement
+            double opacity = 0.7 + 0.3 * Math.sin(System.currentTimeMillis() / 50.0);
+            gc.setGlobalAlpha(opacity);
+
+            gc.drawImage(explosionSprite.getTexture(), x, y);
+
+            gc.setGlobalAlpha(1.0);
         }
+    }
+
+    private Sprite determineExplosionSprite(Explosions explosion) {
+        int x = explosion.getX();
+        int y = explosion.getY();
+
+        // Vérifier les explosions adjacentes pour déterminer le type
+        boolean hasLeft = explosions.stream().anyMatch(exp -> exp.getX() == x - 1 && exp.getY() == y);
+        boolean hasRight = explosions.stream().anyMatch(exp -> exp.getX() == x + 1 && exp.getY() == y);
+        boolean hasUp = explosions.stream().anyMatch(exp -> exp.getX() == x && exp.getY() == y - 1);
+        boolean hasDown = explosions.stream().anyMatch(exp -> exp.getX() == x && exp.getY() == y + 1);
+
+        // Animation des flammes (cycle entre 4 sprites)
+        long time = System.currentTimeMillis();
+        int animFrame = (int) ((time / 100) % 4) + 1; // 1-4
+
+        // Déterminer le type d'explosion et retourner le sprite approprié
+        if (!hasLeft && !hasRight && !hasUp && !hasDown) {
+            // Centre d'explosion (pas d'adjacents)
+            switch (animFrame) {
+                case 1: return Sprite.Center_flameSegment_1;
+                case 2: return Sprite.Center_flameSegment_2;
+                case 3: return Sprite.Center_flameSegment_3;
+                case 4: return Sprite.Center_flameSegment_4;
+            }
+        } else if ((hasLeft || hasRight) && !hasUp && !hasDown) {
+            // Explosion horizontale
+            if (!hasLeft) { // Fin gauche
+                switch (animFrame) {
+                    case 1: return Sprite.left_flameSegment_1;
+                    case 2: return Sprite.left_flameSegment_2;
+                    case 3: return Sprite.left_flameSegment_3;
+                    case 4: return Sprite.left_flameSegment_4;
+                }
+            } else if (!hasRight) { // Fin droite
+                switch (animFrame) {
+                    case 1: return Sprite.right_flameSegment_1;
+                    case 2: return Sprite.right_flameSegment_2;
+                    case 3: return Sprite.right_flameSegment_3;
+                    case 4: return Sprite.right_flameSegment_4;
+                }
+            } else { // Milieu horizontal
+                switch (animFrame) {
+                    case 1: return Sprite.center_left_flamSegment_1;
+                    case 2: return Sprite.center_left_flamSegment_2;
+                    case 3: return Sprite.center_left_flamSegment_3;
+                    case 4: return Sprite.center_left_flamSegment_4;
+                }
+            }
+        } else if ((hasUp || hasDown) && !hasLeft && !hasRight) {
+            // Explosion verticale
+            if (!hasUp) { // Fin haut
+                switch (animFrame) {
+                    case 1: return Sprite.top_flameSegment_1;
+                    case 2: return Sprite.top_flameSegment_2;
+                    case 3: return Sprite.top_flameSegment_3;
+                    case 4: return Sprite.top_flameSegment_4;
+                }
+            } else if (!hasDown) { // Fin bas
+                switch (animFrame) {
+                    case 1: return Sprite.bottom_flameSegment_1;
+                    case 2: return Sprite.bottom_flameSegment_2;
+                    case 3: return Sprite.bottom_flameSegment_3;
+                    case 4: return Sprite.bottom_flameSegment_4;
+                }
+            } else { // Milieu vertical
+                switch (animFrame) {
+                    case 1: return Sprite.center_top_flamSegment_1;
+                    case 2: return Sprite.center_top_flamSegment_2;
+                    case 3: return Sprite.center_top_flamSegment_3;
+                    case 4: return Sprite.center_top_flamSegment_4;
+                }
+            }
+        } else {
+            // Explosion en croix (centre avec connexions dans plusieurs directions)
+            switch (animFrame) {
+                case 1: return Sprite.Center_flameSegment_1;
+                case 2: return Sprite.Center_flameSegment_2;
+                case 3: return Sprite.Center_flameSegment_3;
+                case 4: return Sprite.Center_flameSegment_4;
+            }
+        }
+
+        // Par défaut, retourner explosion au centre
+        return Sprite.Center_flameSegment_1;
     }
 
     private void renderPlayers() {
@@ -619,7 +753,28 @@ public class Jeu implements Initializable {
             if (sprite != null) {
                 gc.drawImage(sprite.getTexture(), x, y);
             }
+
+            // Afficher les informations du joueur si en mode debug
+            if (isDebugMode()) {
+                renderPlayerInfo(player, x, y);
+            }
         }
+    }
+
+    private boolean isDebugMode() {
+        // Activer le mode debug en appuyant sur F3
+        return pressedKeys.contains(KeyCode.F3);
+    }
+
+    private void renderPlayerInfo(JoueurMultiplayer player, int x, int y) {
+        gc.setFill(Color.WHITE);
+        gc.setFont(new Font("Arial", 8));
+        gc.setTextAlign(TextAlignment.LEFT);
+
+        // Afficher les stats du joueur au-dessus de lui
+        String info = String.format("V:%d B:%d P:%d",
+                player.getVies(), player.getNombreBombes(), player.getPorteBombe());
+        gc.fillText(info, x, y - 5);
     }
 
     private Sprite getPlayerSprite(JoueurMultiplayer player) {
@@ -628,78 +783,243 @@ public class Jeu implements Initializable {
 
         switch (couleur) {
             case "Rouge":
-                switch (direction) {
-                    case "UP": return Sprite.player_up_rouge;
-                    case "DOWN": return Sprite.player_down_rouge;
-                    case "LEFT": return Sprite.palyer_left_rouge;
-                    case "RIGHT": return Sprite.palyer_right_rouge;
-                }
-                break;
+                return switch (direction) {
+                    case "UP" -> Sprite.player_up_rouge;
+                    case "DOWN" -> Sprite.player_down_rouge;
+                    case "LEFT" -> Sprite.palyer_left_rouge;
+                    case "RIGHT" -> Sprite.palyer_right_rouge;
+                    default -> Sprite.player_down_rouge;
+                };
             case "Bleu":
                 switch (direction) {
                     case "UP": return Sprite.player_up_bleu;
                     case "DOWN": return Sprite.player_down_bleu;
                     case "LEFT": return Sprite.palyer_left_bleu;
                     case "RIGHT": return Sprite.palyer_right_bleu;
+                    default: return Sprite.player_down_bleu;
                 }
-                break;
             case "Vert":
                 switch (direction) {
                     case "UP": return Sprite.player_up_vert;
                     case "DOWN": return Sprite.player_down_vert;
                     case "LEFT": return Sprite.palyer_left_vert;
                     case "RIGHT": return Sprite.palyer_right_vert;
+                    default: return Sprite.player_down_vert;
                 }
-                break;
             case "Jaune":
                 switch (direction) {
                     case "UP": return Sprite.player_up_jaune;
                     case "DOWN": return Sprite.player_down_jaune;
                     case "LEFT": return Sprite.palyer_left_jaune;
                     case "RIGHT": return Sprite.palyer_right_jaune;
+                    default: return Sprite.player_down_jaune;
                 }
-                break;
+            default:
+                return Sprite.player_down_rouge; // Défaut
         }
-        return Sprite.player_down_rouge; // Défaut
     }
 
     private void renderGameOverScreen() {
         if (gameState == GameState.GAME_OVER || gameState == GameState.PLAYER_WON) {
+            // Overlay semi-transparent
             gc.setFill(Color.BLACK);
-            gc.setGlobalAlpha(0.7);
+            gc.setGlobalAlpha(0.8);
             gc.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             gc.setGlobalAlpha(1.0);
 
+            // Titre principal
             gc.setFill(Color.WHITE);
-            gc.setFont(new Font("Arial", 36));
+            gc.setFont(new Font("Arial", 42));
             gc.setTextAlign(TextAlignment.CENTER);
 
+            String titleText;
             if (gameState == GameState.GAME_OVER) {
-                gc.fillText("TEMPS ÉCOULÉ!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+                titleText = "TEMPS ÉCOULÉ!";
             } else {
                 Optional<JoueurMultiplayer> winner = players.stream()
                         .filter(JoueurMultiplayer::isAlive)
                         .findFirst();
 
                 if (winner.isPresent()) {
-                    gc.fillText("JOUEUR " + winner.get().getCouleur().toUpperCase() + " GAGNE!",
-                            CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+                    titleText = "JOUEUR " + winner.get().getCouleur().toUpperCase() + " GAGNE!";
+                    // Couleur spéciale pour le gagnant
+                    switch (winner.get().getCouleur()) {
+                        case "Rouge": gc.setFill(Color.RED); break;
+                        case "Bleu": gc.setFill(Color.BLUE); break;
+                        case "Vert": gc.setFill(Color.LIME); break;
+                        case "Jaune": gc.setFill(Color.YELLOW); break;
+                    }
                 } else {
-                    gc.fillText("ÉGALITÉ!", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 50);
+                    titleText = "ÉGALITÉ!";
                 }
             }
 
-            gc.setFont(new Font("Arial", 18));
-            gc.fillText("Appuyez sur ESC pour retourner au menu", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + 20);
+            gc.fillText(titleText, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 - 40);
+
+            // Score final
+            gc.setFill(Color.WHITE);
+            gc.setFont(new Font("Arial", 20));
+            gc.fillText("Score final: " + String.format("%,d", gameScore),
+                    CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+
+            // Statistiques des joueurs
+            gc.setFont(new Font("Arial", 14));
+            int yOffset = 40;
+            for (JoueurMultiplayer player : players) {
+                String playerStats = String.format("%s - Vies: %d | Bombes: %d | Portée: %d",
+                        player.getCouleur(), player.getVies(), player.getNombreBombes(), player.getPorteBombe());
+
+                // Couleur du joueur
+                switch (player.getCouleur()) {
+                    case "Rouge": gc.setFill(Color.RED); break;
+                    case "Bleu": gc.setFill(Color.CYAN); break;
+                    case "Vert": gc.setFill(Color.LIME); break;
+                    case "Jaune": gc.setFill(Color.YELLOW); break;
+                    default: gc.setFill(Color.WHITE);
+                }
+
+                gc.fillText(playerStats, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + yOffset);
+                yOffset += 20;
+            }
+
+            // Instructions
+            gc.setFill(Color.LIGHTGRAY);
+            gc.setFont(new Font("Arial", 16));
+            gc.fillText("Appuyez sur ESC pour retourner au menu",
+                    CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2 + yOffset + 20);
+
+            // Mode debug info
+            if (isDebugMode()) {
+                gc.setFill(Color.ORANGE);
+                gc.setFont(new Font("Arial", 12));
+                gc.fillText("Mode Debug activé (F3)", CANVAS_WIDTH / 2, CANVAS_HEIGHT - 30);
+            }
         }
     }
 
+    /**
+     * Méthode utilitaire pour obtenir des informations sur l'état du jeu
+     */
+    public String getGameStatus() {
+        long alivePlayers = players.stream().filter(JoueurMultiplayer::isAlive).count();
+        return String.format("Jeu en cours - Joueurs vivants: %d, Bombes: %d, Power-ups: %d, Temps: %d",
+                alivePlayers, bombs.size(), powerUps.size(), gameBanner.getGameTime());
+    }
+
+    /**
+     * Méthode pour forcer la fin du jeu (pour tests)
+     */
+    public void forceGameEnd() {
+        gameState = GameState.GAME_OVER;
+    }
+
+    /**
+     * Méthode pour redémarrer le jeu
+     */
+    public void restartGame() {
+        stopGame();
+        initializeGame();
+        startGameLoop();
+    }
+
+    /**
+     * Arrêt propre du jeu avec nettoyage des ressources
+     */
     public void stopGame() {
         if (gameLoop != null) {
             gameLoop.stop();
+            gameLoop = null;
         }
         if (gameBanner != null) {
             gameBanner.stopTimer();
         }
+
+        // Nettoyage des collections
+        if (bombs != null) bombs.clear();
+        if (explosions != null) explosions.clear();
+        if (powerUps != null) powerUps.clear();
+        if (pressedKeys != null) pressedKeys.clear();
+
+        System.out.println("Jeu arrêté proprement.");
     }
-}git
+
+    /**
+     * Getter pour l'état du jeu (utile pour les tests)
+     */
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    /**
+     * Getter pour la liste des joueurs (utile pour les tests)
+     */
+    public List<JoueurMultiplayer> getPlayers() {
+        return new ArrayList<>(players); // Copie défensive
+    }
+
+    /**
+     * Getter pour le score (utile pour les tests)
+     */
+    public int getGameScore() {
+        return gameScore;
+    }
+
+    /**
+     * Méthode pour obtenir le nombre de power-ups sur le terrain
+     */
+    public int getPowerUpCount() {
+        return powerUps.size();
+    }
+
+    /**
+     * Méthode pour obtenir le nombre de bombes actives
+     */
+    public int getActiveBombCount() {
+        return bombs.size();
+    }
+
+    /**
+     * Méthode pour obtenir le temps restant
+     */
+    public int getRemainingTime() {
+        return gameBanner.getGameTime();
+    }
+
+    /**
+     * Méthode pour vérifier si le jeu est en mode debug
+     */
+    public boolean getDebugMode() {
+        return isDebugMode();
+    }
+
+    /**
+     * Méthode pour obtenir des statistiques complètes du jeu
+     */
+    public Map<String, Object> getGameStatistics() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("gameState", gameState);
+        stats.put("score", gameScore);
+        stats.put("remainingTime", gameBanner.getGameTime());
+        stats.put("alivePlayers", players.stream().filter(JoueurMultiplayer::isAlive).count());
+        stats.put("activeBombs", bombs.size());
+        stats.put("activePowerUps", powerUps.size());
+        stats.put("activeExplosions", explosions.size());
+        stats.put("debugMode", isDebugMode());
+
+        // Statistiques par joueur
+        Map<String, Map<String, Integer>> playerStats = new HashMap<>();
+        for (JoueurMultiplayer player : players) {
+            Map<String, Integer> playerInfo = new HashMap<>();
+            playerInfo.put("lives", player.getVies());
+            playerInfo.put("bombCount", player.getNombreBombes());
+            playerInfo.put("bombRange", player.getPorteBombe());
+            playerInfo.put("speed", player.getVitesse());
+            playerInfo.put("isAlive", player.isAlive() ? 1 : 0);
+            playerInfo.put("isInvincible", player.isInvincible() ? 1 : 0);
+            playerStats.put(player.getCouleur(), playerInfo);
+        }
+        stats.put("players", playerStats);
+
+        return stats;
+    }
+}
