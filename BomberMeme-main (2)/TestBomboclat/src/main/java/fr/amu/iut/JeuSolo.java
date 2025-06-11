@@ -123,13 +123,6 @@ public class JeuSolo implements Initializable {
                     if ((x <= 2 && y <= 2) || (x >= GRID_WIDTH - 3 && y <= 2) ||
                             (x <= 2 && y >= GRID_HEIGHT - 3) || (x >= GRID_WIDTH - 3 && y >= GRID_HEIGHT - 3)) {
                         gameBoard[y][x] = EMPTY;
-                    } else {
-                        // Placer des briques destructibles aléatoirement
-                        if (random.nextDouble() < 0.7) {
-                            gameBoard[y][x] = BRICK;
-                        } else {
-                            gameBoard[y][x] = EMPTY;
-                        }
                     }
                 }
             }

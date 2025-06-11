@@ -27,7 +27,7 @@ public class Bots extends JoueurMultiplayer {
         int nx = currentX + dir[0];
         int ny = currentY + dir[1];
 
-        // Se déplace vers une case vide ou avec un powerup
+        // Se déplacer si la case est vide ou contient un powerup
         if (nx >= 0 && ny >= 0 && nx < gameBoard[0].length && ny < gameBoard.length) {
             if (gameBoard[ny][nx] == 0 || gameBoard[ny][nx] == 5) {
                 setX(nx);
@@ -39,11 +39,13 @@ public class Bots extends JoueurMultiplayer {
             }
         }
 
-        // Pose une bombe avec une faible probabilité
-        if (random.nextDouble() < 0.01 && peutPlacerBombe(1)) {
+        // Vérifie s’il peut poser une bombe et le fait directement
+        if (random.nextDouble() < 0.1 && peutPlacerBombe((int) bombs.stream()
+                .filter(b -> b.getOwnerId() == getIdJ()).count())) {
             setBombKeyPressed(true);
         } else {
             setBombKeyPressed(false);
         }
     }
+
 }
