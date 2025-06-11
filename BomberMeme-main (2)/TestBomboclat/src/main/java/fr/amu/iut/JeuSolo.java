@@ -133,6 +133,7 @@ public class JeuSolo implements Initializable {
         // Joueur 1 (Rouge) - coin supérieur gauche
         JoueurMultiplayer player1 = new JoueurMultiplayer(1, 1, 1, "Rouge");
         player1.setControls("Z", "S", "Q", "D", "SPACE");
+        player1.setNombreBombes(3);
         players.add(player1);
 
         // Bot 1 (Bleu) - coin supérieur droit
@@ -207,7 +208,7 @@ public class JeuSolo implements Initializable {
             if (!player.isAlive()) continue;
 
             if (player instanceof Bots) {
-                ((Bots) player).updateAI(gameBoard, bombs, explosions);
+                ((Bots) player).updateAI(gameBoard, bombs, explosions, players);
                 if (player.isBombKeyPressed()) {
                     placeBomb(player);
                 }
