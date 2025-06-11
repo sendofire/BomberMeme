@@ -140,7 +140,7 @@ public class Jeu implements Initializable {
     private void createPlayers() {
         // Joueur 1 (Rouge) - coin supérieur gauche
         JoueurMultiplayer player1 = new JoueurMultiplayer(1, 1, 1, "Rouge");
-        player1.setControls("Z", "S", "Q", "D", "SPACE");
+        player1.setControls("Z", "S", "Q", "D", "A");
         players.add(player1);
 
         // Joueur 2 (Bleu) - coin supérieur droit
@@ -276,6 +276,7 @@ public class Jeu implements Initializable {
                 case "S": return pressedKeys.contains(KeyCode.S);
                 case "Q": return pressedKeys.contains(KeyCode.Q);
                 case "D": return pressedKeys.contains(KeyCode.D);
+                case "A": return pressedKeys.contains(KeyCode.A);
                 case "T": return pressedKeys.contains(KeyCode.T);
                 case "G": return pressedKeys.contains(KeyCode.G);
                 case "F": return pressedKeys.contains(KeyCode.F);
@@ -538,7 +539,8 @@ public class Jeu implements Initializable {
         int totalBombs = bombs.size();
         int totalPowerUps = powerUps.size();
 
-        gameBanner.render(alivePlayers, totalBombs, totalPowerUps, gameScore);
+        // Utiliser la nouvelle méthode render avec la liste des joueurs
+        gameBanner.render(alivePlayers, totalBombs, totalPowerUps, gameScore, players);
     }
 
     private void renderBoard() {

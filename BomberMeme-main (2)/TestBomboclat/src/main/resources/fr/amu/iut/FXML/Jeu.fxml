@@ -6,7 +6,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="fr.amu.iut.Jeu"
             fx:id="gamePane"
-            prefHeight="600.0"
+            prefHeight="700.0"
             prefWidth="800.0"
             style="-fx-background-color: black;">
 </AnchorPane>

@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Sprite {
     private static final int SCALED_FACTOR = 3; // Facteur d'agrandissement
-    private static final String TEXTURE_PATH = "/fr/amu/iut/textures/";
+    private static final String TEXTURE_PATH = "/fr/amu/iut/textures/amongUs/";
 
     private Image texture;
     private final String imagePath;
@@ -20,8 +20,8 @@ public class Sprite {
     |--------------------------------------------------------------------------
      */
     public static final Sprite sol = new Sprite("sol.png");
-    public static final Sprite brick = new Sprite("amongUs-crate.png");
-    public static final Sprite brick2 = new Sprite("amongUs-crate.png"); // Même image pour l'instant
+    public static final Sprite brick = new Sprite("crate.png");
+    public static final Sprite brick2 = new Sprite("crate.png"); // Même image pour l'instant
     public static final Sprite mur = new Sprite("mur.png");
 
     /*
@@ -29,118 +29,118 @@ public class Sprite {
     | Bomber Sprites - Rouge
     |--------------------------------------------------------------------------
      */
-    public static final Sprite player_down_rouge = new Sprite("amongUs-red-down.png");
-    public static final Sprite player_up_rouge = new Sprite("amongUs-red-up.png");
-    public static final Sprite palyer_left_rouge = new Sprite("amongUs-red-left.png");
-    public static final Sprite palyer_right_rouge = new Sprite("amongUs-red-right.png");
+    public static final Sprite player_down_rouge = new Sprite("red-down.png");
+    public static final Sprite player_up_rouge = new Sprite("red-up.png");
+    public static final Sprite palyer_left_rouge = new Sprite("red-left.png");
+    public static final Sprite palyer_right_rouge = new Sprite("red-right.png");
 
     /*
     |--------------------------------------------------------------------------
     | Bomber Sprites - Bleu
     |--------------------------------------------------------------------------
      */
-    public static final Sprite player_down_bleu = new Sprite("amongUs-blue-down.png");
-    public static final Sprite player_up_bleu = new Sprite("amongUs-blue-up.png");
-    public static final Sprite palyer_left_bleu = new Sprite("amongUs-blue-left.png");
-    public static final Sprite palyer_right_bleu = new Sprite("amongUs-blue-right.png");
+    public static final Sprite player_down_bleu = new Sprite("blue-down.png");
+    public static final Sprite player_up_bleu = new Sprite("blue-up.png");
+    public static final Sprite palyer_left_bleu = new Sprite("blue-left.png");
+    public static final Sprite palyer_right_bleu = new Sprite("blue-right.png");
 
     /*
     |--------------------------------------------------------------------------
     | Bomber Sprites - Vert
     |--------------------------------------------------------------------------
      */
-    public static final Sprite player_down_vert = new Sprite("amongUs-green-down.png");
-    public static final Sprite player_up_vert = new Sprite("amongUs-green-up.png");
-    public static final Sprite palyer_left_vert = new Sprite("amongUs-green-left.png");
-    public static final Sprite palyer_right_vert = new Sprite("amongUs-green-right.png");
+    public static final Sprite player_down_vert = new Sprite("green-down.png");
+    public static final Sprite player_up_vert = new Sprite("green-up.png");
+    public static final Sprite palyer_left_vert = new Sprite("green-left.png");
+    public static final Sprite palyer_right_vert = new Sprite("green-right.png");
 
     /*
     |--------------------------------------------------------------------------
     | Bomber Sprites - Jaune
     |--------------------------------------------------------------------------
      */
-    public static final Sprite player_down_jaune = new Sprite("amongUs-yellow-down.png");
-    public static final Sprite player_up_jaune = new Sprite("amongUs-yellow-up.png");
-    public static final Sprite palyer_left_jaune = new Sprite("amongUs-yellow-left.png");
-    public static final Sprite palyer_right_jaune = new Sprite("amongUs-yellow-right.png");
+    public static final Sprite player_down_jaune = new Sprite("yellow-down.png");
+    public static final Sprite player_up_jaune = new Sprite("yellow-up.png");
+    public static final Sprite palyer_left_jaune = new Sprite("yellow-left.png");
+    public static final Sprite palyer_right_jaune = new Sprite("yellow-right.png");
 
     /*
     |--------------------------------------------------------------------------
     | Bomb Sprites (utilise les mêmes images en rotation ou par défaut)
     |--------------------------------------------------------------------------
      */
-    public static final Sprite bomb_1 = new Sprite("amongUs-bomb-1.png"); // Utilise crate en attendant
-    public static final Sprite bomb_2 = new Sprite("amongUs-bomb-2.png");
-    public static final Sprite bomb_3 = new Sprite("amongUs-bomb-3.png");
+    public static final Sprite bomb_1 = new Sprite("bomb-1.png"); // Utilise crate en attendant
+    public static final Sprite bomb_2 = new Sprite("bomb-2.png");
+    public static final Sprite bomb_3 = new Sprite("bomb-3.png");
 
     /*
     |--------------------------------------------------------------------------
     | FlameSegment Sprites - Centre
     |--------------------------------------------------------------------------
      */
-    public static final Sprite Center_flameSegment_1 = new Sprite("amongUs-explosion-center-1.png");
-    public static final Sprite Center_flameSegment_2 = new Sprite("amongUs-explosion-center-2.png");
-    public static final Sprite Center_flameSegment_3 = new Sprite("amongUs-explosion-center-3.png");
-    public static final Sprite Center_flameSegment_4 = new Sprite("amongUs-explosion-center-4.png");
+    public static final Sprite Center_flameSegment_1 = new Sprite("explosion-center-1.png");
+    public static final Sprite Center_flameSegment_2 = new Sprite("explosion-center-2.png");
+    public static final Sprite Center_flameSegment_3 = new Sprite("explosion-center-3.png");
+    public static final Sprite Center_flameSegment_4 = new Sprite("explosion-center-4.png");
 
     /*
     |--------------------------------------------------------------------------
     | FlameSegment Sprites - Fins
     |--------------------------------------------------------------------------
      */
-    public static final Sprite top_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
-    public static final Sprite top_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
-    public static final Sprite top_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
-    public static final Sprite top_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+    public static final Sprite top_flameSegment_1 = new Sprite("explosion-last-1.png");
+    public static final Sprite top_flameSegment_2 = new Sprite("explosion-last-2.png");
+    public static final Sprite top_flameSegment_3 = new Sprite("explosion-last-3.png");
+    public static final Sprite top_flameSegment_4 = new Sprite("explosion-last-4.png");
 
-    public static final Sprite bottom_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
-    public static final Sprite bottom_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
-    public static final Sprite bottom_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
-    public static final Sprite bottom_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+    public static final Sprite bottom_flameSegment_1 = new Sprite("explosion-last-1.png");
+    public static final Sprite bottom_flameSegment_2 = new Sprite("explosion-last-2.png");
+    public static final Sprite bottom_flameSegment_3 = new Sprite("explosion-last-3.png");
+    public static final Sprite bottom_flameSegment_4 = new Sprite("explosion-last-4.png");
 
-    public static final Sprite left_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
-    public static final Sprite left_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
-    public static final Sprite left_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
-    public static final Sprite left_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+    public static final Sprite left_flameSegment_1 = new Sprite("explosion-last-1.png");
+    public static final Sprite left_flameSegment_2 = new Sprite("explosion-last-2.png");
+    public static final Sprite left_flameSegment_3 = new Sprite("explosion-last-3.png");
+    public static final Sprite left_flameSegment_4 = new Sprite("explosion-last-4.png");
 
-    public static final Sprite right_flameSegment_1 = new Sprite("amongUs-explosion-last-1.png");
-    public static final Sprite right_flameSegment_2 = new Sprite("amongUs-explosion-last-2.png");
-    public static final Sprite right_flameSegment_3 = new Sprite("amongUs-explosion-last-3.png");
-    public static final Sprite right_flameSegment_4 = new Sprite("amongUs-explosion-last-4.png");
+    public static final Sprite right_flameSegment_1 = new Sprite("explosion-last-1.png");
+    public static final Sprite right_flameSegment_2 = new Sprite("explosion-last-2.png");
+    public static final Sprite right_flameSegment_3 = new Sprite("explosion-last-3.png");
+    public static final Sprite right_flameSegment_4 = new Sprite("explosion-last-4.png");
 
     /*
     |--------------------------------------------------------------------------
     | FlameSegment Sprites - Milieux
     |--------------------------------------------------------------------------
      */
-    public static final Sprite center_top_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
-    public static final Sprite center_top_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
-    public static final Sprite center_top_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
-    public static final Sprite center_top_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+    public static final Sprite center_top_flamSegment_1 = new Sprite("explosion-middle-1.png");
+    public static final Sprite center_top_flamSegment_2 = new Sprite("explosion-middle-2.png");
+    public static final Sprite center_top_flamSegment_3 = new Sprite("explosion-middle-3.png");
+    public static final Sprite center_top_flamSegment_4 = new Sprite("explosion-middle-4.png");
 
-    public static final Sprite center_bottom_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
-    public static final Sprite center_bottom_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
-    public static final Sprite center_bottom_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
-    public static final Sprite center_bottom_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+    public static final Sprite center_bottom_flamSegment_1 = new Sprite("explosion-middle-1.png");
+    public static final Sprite center_bottom_flamSegment_2 = new Sprite("explosion-middle-2.png");
+    public static final Sprite center_bottom_flamSegment_3 = new Sprite("explosion-middle-3.png");
+    public static final Sprite center_bottom_flamSegment_4 = new Sprite("explosion-middle-4.png");
 
-    public static final Sprite center_left_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
-    public static final Sprite center_left_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
-    public static final Sprite center_left_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
-    public static final Sprite center_left_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+    public static final Sprite center_left_flamSegment_1 = new Sprite("explosion-middle-1.png");
+    public static final Sprite center_left_flamSegment_2 = new Sprite("explosion-middle-2.png");
+    public static final Sprite center_left_flamSegment_3 = new Sprite("explosion-middle-3.png");
+    public static final Sprite center_left_flamSegment_4 = new Sprite("explosion-middle-4.png");
 
-    public static final Sprite center_right_flamSegment_1 = new Sprite("amongUs-explosion-middle-1.png");
-    public static final Sprite center_right_flamSegment_2 = new Sprite("amongUs-explosion-middle-2.png");
-    public static final Sprite center_right_flamSegment_3 = new Sprite("amongUs-explosion-middle-3.png");
-    public static final Sprite center_right_flamSegment_4 = new Sprite("amongUs-explosion-middle-4.png");
+    public static final Sprite center_right_flamSegment_1 = new Sprite("explosion-middle-1.png");
+    public static final Sprite center_right_flamSegment_2 = new Sprite("explosion-middle-2.png");
+    public static final Sprite center_right_flamSegment_3 = new Sprite("explosion-middle-3.png");
+    public static final Sprite center_right_flamSegment_4 = new Sprite("explosion-middle-4.png");
 
     /*
     |--------------------------------------------------------------------------
     | Powerups
     |--------------------------------------------------------------------------
      */
-    public static final Sprite bomb_Up = new Sprite("amongUs-powerUP-bomb.png");
-    public static final Sprite fire_Up = new Sprite("amongUs-powerUP-explosion.png");
-    public static final Sprite speed_Up = new Sprite("amongUs-powerUP-speed.png");
+    public static final Sprite bomb_Up = new Sprite("powerUP-bomb.png");
+    public static final Sprite fire_Up = new Sprite("powerUP-explosion.png");
+    public static final Sprite speed_Up = new Sprite("powerUP-speed.png");
 
     /**
      * Constructeur privé pour créer un sprite à partir d'un fichier image
@@ -288,18 +288,18 @@ public class Sprite {
      */
     public static void listAvailableImages() {
         String[] imageNames = {
-                "sol.png", "mur.png", "amongUs-crate.png",
+                "sol.png", "mur.png", "crate.png",
                 "amongUs-red-down.png", "amongUs-red-up.png", "amongUs-red-left.png", "amongUs-red-right.png",
                 "amongUs-blue-down.png", "amongUs-blue-up.png", "amongUs-blue-left.png", "amongUs-blue-right.png",
                 "amongUs-green-down.png", "amongUs-green-up.png", "amongUs-green-left.png", "amongUs-green-right.png",
                 "amongUs-yellow-down.png", "amongUs-yellow-up.png", "amongUs-yellow-left.png", "amongUs-yellow-right.png",
-                "amongUs-explosion-center-1.png", "amongUs-explosion-center-2.png",
-                "amongUs-explosion-center-3.png", "amongUs-explosion-center-4.png",
-                "amongUs-explosion-middle-1.png", "amongUs-explosion-middle-2.png",
-                "amongUs-explosion-middle-3.png", "amongUs-explosion-middle-4.png",
-                "amongUs-explosion-last-1.png", "amongUs-explosion-last-2.png",
-                "amongUs-explosion-last-3.png", "amongUs-explosion-last-4.png",
-                "amongUs-powerUP-bomb.png", "amongUs-powerUP-explosion.png", "amongUs-powerUP-speed.png"
+                "explosion-center-1.png", "explosion-center-2.png",
+                "explosion-center-3.png", "explosion-center-4.png",
+                "explosion-middle-1.png", "explosion-middle-2.png",
+                "explosion-middle-3.png", "explosion-middle-4.png",
+                "explosion-last-1.png", "explosion-last-2.png",
+                "explosion-last-3.png", "explosion-last-4.png",
+                "powerUP-bomb.png", "powerUP-explosion.png", "powerUP-speed.png"
         };
 
         System.out.println("=== Vérification des images disponibles ===");
