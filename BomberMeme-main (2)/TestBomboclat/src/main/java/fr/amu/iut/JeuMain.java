@@ -1,6 +1,7 @@
 package fr.amu.iut;
 
 import fr.amu.iut.Personnages.Joueurs;
+import fr.amu.iut.audio.AudioManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -23,6 +24,10 @@ public class JeuMain extends Application {
         scene.getStylesheets().add(getClass().getResource("FXML/MenuCSS.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("BOMBOCLAT");
+
+        // Au démarrage de votre jeu
+        AudioManager.demarrerMusique();
         stage.show();
     }
+
 }

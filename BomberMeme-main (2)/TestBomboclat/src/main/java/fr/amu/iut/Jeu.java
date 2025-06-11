@@ -4,6 +4,7 @@ import fr.amu.iut.Personnages.JoueurMultiplayer;
 import fr.amu.iut.Objets.Bombes;
 import fr.amu.iut.Objets.PowerUps;
 import fr.amu.iut.Obstacle.Explosions;
+import fr.amu.iut.audio.AudioManager;
 import fr.amu.iut.graphique.Sprite;
 import fr.amu.iut.graphique.Banniere;
 import javafx.animation.AnimationTimer;
@@ -16,16 +17,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Jeu implements Initializable {
+public abstract class Jeu implements Initializable {
 
     @FXML
     private AnchorPane gamePane;
@@ -35,6 +39,9 @@ public class Jeu implements Initializable {
     private AnimationTimer gameLoop;
     private Banniere gameBanner;
 
+    //Audio
+    private MediaPlayer mediaPlayer;
+
     // Constantes du jeu
     private static final int GRID_WIDTH = 15;
     private static final int GRID_HEIGHT = 13;
@@ -42,6 +49,7 @@ public class Jeu implements Initializable {
     private static final int CANVAS_WIDTH = GRID_WIDTH * TILE_SIZE;
     private static final int CANVAS_HEIGHT = GRID_HEIGHT * TILE_SIZE + 60; // +60 pour la bannière
     private static final int BANNER_HEIGHT = 60;
+
 
     // État du jeu
     private int[][] gameBoard;
@@ -61,6 +69,8 @@ public class Jeu implements Initializable {
     private static final int BOMB = 3;
     private static final int EXPLOSION = 4;
     private static final int POWERUP = 5;
+
+    public abstract void start(Stage primaryStage);
 
     // États du jeu
     private enum GameState {
@@ -97,6 +107,8 @@ public class Jeu implements Initializable {
         gameState = GameState.PLAYING;
         gameScore = 0;
 
+        // Au démarrage de votre jeu
+        AudioManager.demarrerMusique();
         // Créer le plateau de jeu
         createGameBoard();
 
@@ -695,11 +707,25 @@ public class Jeu implements Initializable {
     }
 
     public void stopGame() {
+        //Arret de la musique de fond
+        mediaPlayer.stop();
+
         if (gameLoop != null) {
             gameLoop.stop();
         }
         if (gameBanner != null) {
             gameBanner.stopTimer();
         }
+        // À la fermeture de votre jeu
+        AudioManager.arreterMusique();
+    }
+    public void setVolume(double volume) {
+        mediaPlayer.setVolume(volume); // entre 0.0 et 1.0
+    }
+    public void GameController() {
+        // Initialisation au lancement du jeu
+        Media media = new Media(getClass().getResource("/audio/musicTitle.mp3").toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // boucle
     }
 }
