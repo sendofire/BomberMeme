@@ -22,10 +22,30 @@ public class MenuControl {
     Joueurs j1 = new Joueurs(1, 10, 10);
 
     @FXML
-    public void switchScene(javafx.event.ActionEvent event) throws IOException {
+    public void switchMultijoueur(javafx.event.ActionEvent event) throws IOException {
         try {
             // Charger la scène de jeu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/Jeu.fxml"));
+            Parent root = loader.load();
+
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+            // Demander le focus pour les contrôles clavier
+            root.requestFocus();
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement du jeu: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void switchSolo(javafx.event.ActionEvent event) throws IOException {
+        try {
+            // Charger la scène de jeu
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/JeuSolo.fxml"));
             Parent root = loader.load();
 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();

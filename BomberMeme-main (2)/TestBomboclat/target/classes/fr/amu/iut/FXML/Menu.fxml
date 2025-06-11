@@ -18,8 +18,8 @@
         </top>
         <center>
                 <VBox spacing="15" alignment="CENTER">
-                        <Button  text="Multijoueur" styleClass="menu-button"/>
-                        <Button text="Solo" styleClass="menu-button"/>
+                        <Button  text="Multijoueur" styleClass="menu-button" onAction="#switchMultijoueur"/>
+                        <Button text="Solo" styleClass="menu-button" onAction="#switchSolo"/>
                         <Button text="Éditeur de Niveaux" styleClass="menu-button" onAction="#switchMaintenance"/>
                         <Button text="Paramètres" styleClass="menu-button" onAction="#switchMaintenance"/>
                         <Button text="Crédits" styleClass="menu-button" onAction="#switchCredits"/>
