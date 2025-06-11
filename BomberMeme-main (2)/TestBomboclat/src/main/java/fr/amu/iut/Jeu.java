@@ -702,4 +702,4 @@ public class Jeu implements Initializable {
             gameBanner.stopTimer();
         }
     }
-}
+}git
