@@ -21,6 +21,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -53,6 +55,14 @@ public class Jeu implements Initializable {
     private Random random;
     private GameState gameState;
     private int gameScore;
+    private int redScore = 0;
+    private int blueScore = 0;
+    private int greenScore = 0;
+    private int yellowScore = 0;
+    private int redWin = 0;
+    private int blueWin = 0;
+    private int greenWin = 0;
+    private int yellowWin = 0;
 
     // Types de cases
     private static final int EMPTY = 0;
@@ -66,6 +76,22 @@ public class Jeu implements Initializable {
     private enum GameState {
         PLAYING, GAME_OVER, PLAYER_WON
     }
+
+    /*public void writeSaveFile() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("saveFile.txt", true))) {
+            bw.write("Score rouge: " + redScore + "\n" +
+                    "Score bleu: " + blueScore + "\n" +
+                    "Score vert: " + greenScore + "\n" +
+                    "Score jaune: " + yellowScore + "\n" + "\n" +
+                    "Win rouge: " + redWin + "\n" +
+                    "Win bleu: " + blueWin + "\n" +
+                    "Win vert: " + greenWin + "\n" +
+                    "Win jaune: " + yellowWin + "\n");
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -846,11 +872,12 @@ public class Jeu implements Initializable {
                     titleText = "JOUEUR " + winner.get().getCouleur().toUpperCase() + " GAGNE!";
                     // Couleur spéciale pour le gagnant
                     switch (winner.get().getCouleur()) {
-                        case "Rouge": gc.setFill(Color.RED); break;
-                        case "Bleu": gc.setFill(Color.BLUE); break;
-                        case "Vert": gc.setFill(Color.LIME); break;
-                        case "Jaune": gc.setFill(Color.YELLOW); break;
+                        case "Rouge": gc.setFill(Color.RED); redWin++; break;
+                        case "Bleu": gc.setFill(Color.BLUE); blueWin++; break;
+                        case "Vert": gc.setFill(Color.LIME); greenWin++; break;
+                        case "Jaune": gc.setFill(Color.YELLOW); yellowWin++; break;
                     }
+                    //writeSaveFile();
                 } else {
                     titleText = "ÉGALITÉ!";
                 }
