@@ -5,8 +5,8 @@
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="fr.amu.iut.MenuControl" prefHeight="400.0" prefWidth="600.0" styleClass="menu-container">
     <center>
         <VBox spacing="15" alignment="CENTER">
-            <Button  text="Multijoueur" styleClass="menu-button" onAction="#switchScene"/>
-            <Button text="Solo" styleClass="menu-button"/>
+            <Button  text="Multijoueur" styleClass="menu-button" onAction="#switchMultijoueur"/>
+            <Button text="Solo" styleClass="menu-button" onAction="#switchSolo"/>
             <Button  text="Capture Drapeau" styleClass="menu-button" onAction="#switchDrapeau"/>
             <Button text="Retour Accueil" styleClass="menu-button" onAction="#switchHome"/>
         </VBox>

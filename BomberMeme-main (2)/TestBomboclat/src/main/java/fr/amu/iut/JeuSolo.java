@@ -132,7 +132,7 @@ public class JeuSolo implements Initializable {
     private void createPlayers() {
         // Joueur 1 (Rouge) - coin supérieur gauche
         JoueurMultiplayer player1 = new JoueurMultiplayer(1, 1, 1, "Rouge");
-        player1.setControls("Z", "S", "Q", "D", "SPACE");
+        player1.setControls("Z", "S", "Q", "D", "A");
         player1.setNombreBombes(3);
         players.add(player1);
 
@@ -273,6 +273,7 @@ public class JeuSolo implements Initializable {
                 case "S": return pressedKeys.contains(KeyCode.S);
                 case "Q": return pressedKeys.contains(KeyCode.Q);
                 case "D": return pressedKeys.contains(KeyCode.D);
+                case "A": return pressedKeys.contains(KeyCode.A);
                 case "T": return pressedKeys.contains(KeyCode.T);
                 case "G": return pressedKeys.contains(KeyCode.G);
                 case "F": return pressedKeys.contains(KeyCode.F);
@@ -575,29 +576,138 @@ public class JeuSolo implements Initializable {
     }
 
     private void renderBombs() {
-        gc.setFill(Color.RED);
         for (Bombes bomb : bombs) {
-            int x = bomb.getX() * TILE_SIZE + TILE_SIZE / 4;
-            int y = bomb.getY() * TILE_SIZE + TILE_SIZE / 4;
-            gc.fillOval(x, y, TILE_SIZE / 2, TILE_SIZE / 2);
+            int x = bomb.getX() * TILE_SIZE;
+            int y = bomb.getY() * TILE_SIZE;
 
-            // Afficher le temps restant
-            gc.setFill(Color.WHITE);
-            gc.setFont(new Font("Arial", 12));
-            gc.setTextAlign(TextAlignment.CENTER);
-            long timeLeft = bomb.getTimeRemaining() / 1000;
-            gc.fillText(String.valueOf(timeLeft), x + TILE_SIZE / 4, y + TILE_SIZE / 4);
-            gc.setFill(Color.RED);
+            // Le sol est déjà dessiné dans renderBoard()
+
+            // Animation de la bombe selon le temps restant
+            long timeLeft = bomb.getTimeRemaining();
+            Sprite bombSprite;
+
+            if (timeLeft > 2000) {
+                bombSprite = Sprite.bomb_1;
+            } else if (timeLeft > 1000) {
+                bombSprite = Sprite.bomb_2;
+            } else {
+                bombSprite = Sprite.bomb_3;
+            }
+
+            // Effet de clignotement quand la bombe va exploser
+            if (timeLeft <= 1000 && System.currentTimeMillis() % 200 < 100) {
+                gc.setGlobalAlpha(0.5);
+            }
+
+            gc.drawImage(bombSprite.getTexture(), x, y);
+            gc.setGlobalAlpha(1.0);
+
         }
     }
 
     private void renderExplosions() {
-        gc.setFill(Color.ORANGE);
         for (Explosions explosion : explosions) {
             int x = explosion.getX() * TILE_SIZE;
             int y = explosion.getY() * TILE_SIZE;
-            gc.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+
+            // Le sol est déjà dessiné dans renderBoard()
+
+            // Déterminer le type d'explosion et utiliser les sprites appropriés
+            Sprite explosionSprite = determineExplosionSprite(explosion);
+
+            // Effet de scintillement
+            double opacity = 0.7 + 0.3 * Math.sin(System.currentTimeMillis() / 50.0);
+            gc.setGlobalAlpha(opacity);
+
+            gc.drawImage(explosionSprite.getTexture(), x, y);
+
+            gc.setGlobalAlpha(1.0);
         }
+    }
+
+    private Sprite determineExplosionSprite(Explosions explosion) {
+        int x = explosion.getX();
+        int y = explosion.getY();
+
+        // Vérifier les explosions adjacentes pour déterminer le type
+        boolean hasLeft = explosions.stream().anyMatch(exp -> exp.getX() == x - 1 && exp.getY() == y);
+        boolean hasRight = explosions.stream().anyMatch(exp -> exp.getX() == x + 1 && exp.getY() == y);
+        boolean hasUp = explosions.stream().anyMatch(exp -> exp.getX() == x && exp.getY() == y - 1);
+        boolean hasDown = explosions.stream().anyMatch(exp -> exp.getX() == x && exp.getY() == y + 1);
+
+        // Animation des flammes (cycle entre 4 sprites)
+        long time = System.currentTimeMillis();
+        int animFrame = (int) ((time / 100) % 4) + 1; // 1-4
+
+        // Déterminer le type d'explosion et retourner le sprite approprié
+        if (!hasLeft && !hasRight && !hasUp && !hasDown) {
+            // Centre d'explosion (pas d'adjacents)
+            switch (animFrame) {
+                case 1: return Sprite.Center_flameSegment_1;
+                case 2: return Sprite.Center_flameSegment_2;
+                case 3: return Sprite.Center_flameSegment_3;
+                case 4: return Sprite.Center_flameSegment_4;
+            }
+        } else if ((hasLeft || hasRight) && !hasUp && !hasDown) {
+            // Explosion horizontale
+            if (!hasLeft) { // Fin gauche
+                switch (animFrame) {
+                    case 1: return Sprite.left_flameSegment_1;
+                    case 2: return Sprite.left_flameSegment_2;
+                    case 3: return Sprite.left_flameSegment_3;
+                    case 4: return Sprite.left_flameSegment_4;
+                }
+            } else if (!hasRight) { // Fin droite
+                switch (animFrame) {
+                    case 1: return Sprite.right_flameSegment_1;
+                    case 2: return Sprite.right_flameSegment_2;
+                    case 3: return Sprite.right_flameSegment_3;
+                    case 4: return Sprite.right_flameSegment_4;
+                }
+            } else { // Milieu horizontal
+                switch (animFrame) {
+                    case 1: return Sprite.center_left_flamSegment_1;
+                    case 2: return Sprite.center_left_flamSegment_2;
+                    case 3: return Sprite.center_left_flamSegment_3;
+                    case 4: return Sprite.center_left_flamSegment_4;
+                }
+            }
+        } else if ((hasUp || hasDown) && !hasLeft && !hasRight) {
+            // Explosion verticale
+            if (!hasUp) { // Fin haut
+                switch (animFrame) {
+                    case 1: return Sprite.top_flameSegment_1;
+                    case 2: return Sprite.top_flameSegment_2;
+                    case 3: return Sprite.top_flameSegment_3;
+                    case 4: return Sprite.top_flameSegment_4;
+                }
+            } else if (!hasDown) { // Fin bas
+                switch (animFrame) {
+                    case 1: return Sprite.bottom_flameSegment_1;
+                    case 2: return Sprite.bottom_flameSegment_2;
+                    case 3: return Sprite.bottom_flameSegment_3;
+                    case 4: return Sprite.bottom_flameSegment_4;
+                }
+            } else { // Milieu vertical
+                switch (animFrame) {
+                    case 1: return Sprite.center_top_flamSegment_1;
+                    case 2: return Sprite.center_top_flamSegment_2;
+                    case 3: return Sprite.center_top_flamSegment_3;
+                    case 4: return Sprite.center_top_flamSegment_4;
+                }
+            }
+        } else {
+            // Explosion en croix (centre avec connexions dans plusieurs directions)
+            switch (animFrame) {
+                case 1: return Sprite.Center_flameSegment_1;
+                case 2: return Sprite.Center_flameSegment_2;
+                case 3: return Sprite.Center_flameSegment_3;
+                case 4: return Sprite.Center_flameSegment_4;
+            }
+        }
+
+        // Par défaut, retourner explosion au centre
+        return Sprite.Center_flameSegment_1;
     }
 
     private void renderPlayers() {

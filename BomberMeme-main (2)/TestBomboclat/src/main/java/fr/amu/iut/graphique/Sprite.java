@@ -88,20 +88,20 @@ public class Sprite {
     | FlameSegment Sprites - Fins
     |--------------------------------------------------------------------------
      */
-    public static final Sprite top_flameSegment_1 = new Sprite("explosion-last-1.png");
-    public static final Sprite top_flameSegment_2 = new Sprite("explosion-last-2.png");
-    public static final Sprite top_flameSegment_3 = new Sprite("explosion-last-3.png");
-    public static final Sprite top_flameSegment_4 = new Sprite("explosion-last-4.png");
+    public static final Sprite top_flameSegment_1 = new Sprite("explosion-top-1.png");
+    public static final Sprite top_flameSegment_2 = new Sprite("explosion-top-2.png");
+    public static final Sprite top_flameSegment_3 = new Sprite("explosion-top-3.png");
+    public static final Sprite top_flameSegment_4 = new Sprite("explosion-top-4.png");
 
-    public static final Sprite bottom_flameSegment_1 = new Sprite("explosion-last-1.png");
-    public static final Sprite bottom_flameSegment_2 = new Sprite("explosion-last-2.png");
-    public static final Sprite bottom_flameSegment_3 = new Sprite("explosion-last-3.png");
-    public static final Sprite bottom_flameSegment_4 = new Sprite("explosion-last-4.png");
+    public static final Sprite bottom_flameSegment_1 = new Sprite("explosion-bottom-1.png");
+    public static final Sprite bottom_flameSegment_2 = new Sprite("explosion-bottom-2.png");
+    public static final Sprite bottom_flameSegment_3 = new Sprite("explosion-bottom-3.png");
+    public static final Sprite bottom_flameSegment_4 = new Sprite("explosion-bottom-4.png");
 
-    public static final Sprite left_flameSegment_1 = new Sprite("explosion-last-1.png");
-    public static final Sprite left_flameSegment_2 = new Sprite("explosion-last-2.png");
-    public static final Sprite left_flameSegment_3 = new Sprite("explosion-last-3.png");
-    public static final Sprite left_flameSegment_4 = new Sprite("explosion-last-4.png");
+    public static final Sprite left_flameSegment_1 = new Sprite("explosion-right-top-1.png");
+    public static final Sprite left_flameSegment_2 = new Sprite("explosion-right-top-2.png");
+    public static final Sprite left_flameSegment_3 = new Sprite("explosion-right-top-3.png");
+    public static final Sprite left_flameSegment_4 = new Sprite("explosion-right-top-4.png");
 
     public static final Sprite right_flameSegment_1 = new Sprite("explosion-last-1.png");
     public static final Sprite right_flameSegment_2 = new Sprite("explosion-last-2.png");
@@ -113,20 +113,20 @@ public class Sprite {
     | FlameSegment Sprites - Milieux
     |--------------------------------------------------------------------------
      */
-    public static final Sprite center_top_flamSegment_1 = new Sprite("explosion-middle-1.png");
-    public static final Sprite center_top_flamSegment_2 = new Sprite("explosion-middle-2.png");
-    public static final Sprite center_top_flamSegment_3 = new Sprite("explosion-middle-3.png");
-    public static final Sprite center_top_flamSegment_4 = new Sprite("explosion-middle-4.png");
+    public static final Sprite center_top_flamSegment_1 = new Sprite("explosion-center-top-1.png");
+    public static final Sprite center_top_flamSegment_2 = new Sprite("explosion-center-top-2.png");
+    public static final Sprite center_top_flamSegment_3 = new Sprite("explosion-center-top-3.png");
+    public static final Sprite center_top_flamSegment_4 = new Sprite("explosion-center-top-4.png");
 
-    public static final Sprite center_bottom_flamSegment_1 = new Sprite("explosion-middle-1.png");
-    public static final Sprite center_bottom_flamSegment_2 = new Sprite("explosion-middle-2.png");
-    public static final Sprite center_bottom_flamSegment_3 = new Sprite("explosion-middle-3.png");
-    public static final Sprite center_bottom_flamSegment_4 = new Sprite("explosion-middle-4.png");
+    public static final Sprite center_bottom_flamSegment_1 = new Sprite("explosion-bottom-center-1.png");
+    public static final Sprite center_bottom_flamSegment_2 = new Sprite("explosion-bottom-center-2.png");
+    public static final Sprite center_bottom_flamSegment_3 = new Sprite("explosion-bottom-center-3.png");
+    public static final Sprite center_bottom_flamSegment_4 = new Sprite("explosion-bottom-center-4.png");
 
-    public static final Sprite center_left_flamSegment_1 = new Sprite("explosion-middle-1.png");
-    public static final Sprite center_left_flamSegment_2 = new Sprite("explosion-middle-2.png");
-    public static final Sprite center_left_flamSegment_3 = new Sprite("explosion-middle-3.png");
-    public static final Sprite center_left_flamSegment_4 = new Sprite("explosion-middle-4.png");
+    public static final Sprite center_left_flamSegment_1 = new Sprite("explosion-right-center-1.png");
+    public static final Sprite center_left_flamSegment_2 = new Sprite("explosion-right-center-2.png");
+    public static final Sprite center_left_flamSegment_3 = new Sprite("explosion-right-center-3.png");
+    public static final Sprite center_left_flamSegment_4 = new Sprite("explosion-right-center-4.png");
 
     public static final Sprite center_right_flamSegment_1 = new Sprite("explosion-middle-1.png");
     public static final Sprite center_right_flamSegment_2 = new Sprite("explosion-middle-2.png");
