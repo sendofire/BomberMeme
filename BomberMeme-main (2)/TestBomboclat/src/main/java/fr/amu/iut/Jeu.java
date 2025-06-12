@@ -23,6 +23,7 @@ import javafx.util.Duration;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -77,7 +78,7 @@ public class Jeu implements Initializable {
         PLAYING, GAME_OVER, PLAYER_WON
     }
 
-    /*public void writeSaveFile() {
+    public void writeSaveFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("saveFile.txt", true))) {
             bw.write("Score rouge: " + redScore + "\n" +
                     "Score bleu: " + blueScore + "\n" +
@@ -91,7 +92,7 @@ public class Jeu implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
