@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="fr.amu.iut.MenuControl"
+            prefHeight="400.0" prefWidth="600.0" styleClass="maintenance-container">
+
+    <center>
+        <VBox alignment="CENTER">
+            <ImageView fitWidth="900" fitHeight="600">
+                <image>
+                    <Image url="/fr/amu/iut/textures/amongUs/regles_bombermeme.png"/>
+                </image>
+            </ImageView>
+        </VBox>
+    </center>
+    <bottom>
+        <VBox spacing="15" alignment="CENTER">
+            <Button text="Retour au menu" fx:id="retourButton" onAction="#switchHome" styleClass="maintenance-button"/>
+        </VBox>
+    </bottom>
+
+</BorderPane>
