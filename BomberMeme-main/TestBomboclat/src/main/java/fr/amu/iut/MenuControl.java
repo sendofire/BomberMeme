@@ -22,7 +22,7 @@ public class MenuControl {
     Joueurs j1 = new Joueurs(1, 10, 10);
 
     @FXML
-    public void switchMultijoueur(javafx.event.ActionEvent event) throws IOException {
+    public void switchScene(javafx.event.ActionEvent event) throws IOException {
         try {
             // Charger la scène de jeu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/Jeu.fxml"));
@@ -42,7 +42,8 @@ public class MenuControl {
         }
     }
 
-    public void switchSolo(javafx.event.ActionEvent event) throws IOException {
+    @FXML
+    public void switchJeu(javafx.event.ActionEvent event) throws IOException {
         try {
             // Charger la scène de jeu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/JeuSolo.fxml"));
@@ -61,6 +62,7 @@ public class MenuControl {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     public void switchHome(javafx.event.ActionEvent event) throws IOException {
@@ -91,38 +93,8 @@ public class MenuControl {
         stage.setScene(scene);
         stage.show();
     }
-
-    @FXML
-    public void switchParametre(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/Parametres.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("FXML/MaintenanceCSS.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
     @FXML
     public void quit(javafx.event.ActionEvent event) throws IOException {
         System.exit(0);
     }
-
-    @FXML
-    public void switchStartMenu(javafx.event.ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/startMenu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("FXML/MenuCSS.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void switchDrapeau(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXML/Jeu.fxml"));
-        loader.setController(new CaptureDeDrapeau());
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(loader.load());
-        scene.getStylesheets().add(getClass().getResource("FXML/MaintenanceCSS.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
-    }
-
 }
