@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class Sprite {
     private static final int SCALED_FACTOR = 3; // Facteur d'agrandissement
-    private static final String TEXTURE_PATH = "/fr/amu/iut/textures/amongUs/";
+    private static final String TEXTURE_PATH = "/fr/amu/iut/textures/classique/"; // a modifier pour charger de style (style inclus : amongUS ou classique)
 
     private Image texture;
     private final String imagePath;
