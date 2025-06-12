@@ -35,7 +35,7 @@ public class AudioManager {
         // Création de l'objet Media et MediaPlayer
         Media media = new Media(resource.toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setVolume(12.0);
+        mediaPlayer.setVolume(0.1);
 
         // Lecture en boucle
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);

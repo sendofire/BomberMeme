@@ -7,7 +7,7 @@
         <VBox spacing="15" alignment="CENTER">
             <Button  text="Multijoueur" styleClass="menu-button" onAction="#switchMultijoueur"/>
             <Button text="Solo" styleClass="menu-button" onAction="#switchSolo"/>
-            <Button  text="Capture Drapeau" styleClass="menu-button" onAction="#switchDrapeau"/>
+            <Button  text="Capture Drapeau" styleClass="menu-button" onAction="#switchMaintenance"/>
             <Button text="Retour Accueil" styleClass="menu-button" onAction="#switchHome"/>
         </VBox>
     </center>

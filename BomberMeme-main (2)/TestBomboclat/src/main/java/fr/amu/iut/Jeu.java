@@ -197,8 +197,7 @@ public class Jeu implements Initializable {
 
         // Gestion de la touche Escape pour retourner au menu
         if (event.getCode() == KeyCode.ESCAPE) {
-            stopGame();
-            // Ici vous pourriez ajouter la logique pour retourner au menu
+            System.exit(0);
         }
     }
 

@@ -20,7 +20,7 @@ public class Joueurs {
         this.x = x;
         this.y = y;
         this.vies = 3;
-        this.vitesse = 1;
+        this.vitesse = 5;
         this.nombreBombes = 1;
         this.porteBombe = 2;
         this.direction = "DOWN";
