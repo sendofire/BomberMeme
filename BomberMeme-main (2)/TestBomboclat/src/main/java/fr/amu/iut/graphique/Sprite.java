@@ -21,7 +21,6 @@ public class Sprite {
      */
     public static final Sprite sol = new Sprite("sol.png");
     public static final Sprite brick = new Sprite("crate.png");
-    public static final Sprite brick2 = new Sprite("crate.png"); // Même image pour l'instant
     public static final Sprite mur = new Sprite("mur.png");
 
     /*

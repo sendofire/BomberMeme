@@ -11,7 +11,7 @@
                 <VBox alignment="CENTER">
                         <ImageView fitWidth="500" fitHeight="100">
                                 <image>
-                                        <Image url="@Bomberman_Logo.png"/>
+                                        <Image url="/fr/amu/iut/textures/Bomberman_Logo.png"/>
                                 </image>
                         </ImageView>
                 </VBox>

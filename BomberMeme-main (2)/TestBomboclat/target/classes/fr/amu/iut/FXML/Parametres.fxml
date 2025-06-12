@@ -17,7 +17,7 @@
         <VBox alignment="CENTER">
             <ImageView fitWidth="900" fitHeight="600">
                 <image>
-                    <Image url="/fr/amu/iut/textures/amongUs/regles_bombermeme.png"/>
+                    <Image url="/fr/amu/iut/textures/regles_bombermeme.png"/>
                 </image>
             </ImageView>
         </VBox>
