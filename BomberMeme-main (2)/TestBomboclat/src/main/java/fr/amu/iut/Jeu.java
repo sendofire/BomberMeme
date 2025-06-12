@@ -1,11 +1,26 @@
 package fr.amu.iut;
 
-import fr.amu.iut.Personnages.JoueurMultiplayer;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import fr.amu.iut.Objets.Bombes;
 import fr.amu.iut.Objets.PowerUps;
 import fr.amu.iut.Obstacle.Explosions;
-import fr.amu.iut.graphique.Sprite;
+import fr.amu.iut.Personnages.JoueurMultiplayer;
 import fr.amu.iut.graphique.Banniere;
+import fr.amu.iut.graphique.Sprite;
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,13 +35,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Jeu implements Initializable {
 
@@ -56,10 +64,6 @@ public class Jeu implements Initializable {
     private Random random;
     private GameState gameState;
     private int gameScore;
-    private int redScore = 0;
-    private int blueScore = 0;
-    private int greenScore = 0;
-    private int yellowScore = 0;
     private int redWin = 0;
     private int blueWin = 0;
     private int greenWin = 0;
@@ -80,10 +84,10 @@ public class Jeu implements Initializable {
 
     public void writeSaveFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("saveFile.txt", true))) {
-            bw.write("Score rouge: " + redScore + "\n" +
-                    "Score bleu: " + blueScore + "\n" +
-                    "Score vert: " + greenScore + "\n" +
-                    "Score jaune: " + yellowScore + "\n" + "\n" +
+            bw.write("Score rouge: " + players.get(0).getScore() + "\n" +
+                    "Score bleu: " + players.get(1).getScore() + "\n" +
+                    "Score vert: " + players.get(2).getScore() + "\n" +
+                    "Score jaune: " + players.get(3).getScore() + "\n" + "\n" +
                     "Win rouge: " + redWin + "\n" +
                     "Win bleu: " + blueWin + "\n" +
                     "Win vert: " + greenWin + "\n" +
@@ -198,6 +202,8 @@ public class Jeu implements Initializable {
 
         // Gestion de la touche Escape pour retourner au menu
         if (event.getCode() == KeyCode.ESCAPE) {
+            stopGame();
+            writeSaveFile();
             System.exit(0);
         }
     }
@@ -370,7 +376,7 @@ public class Jeu implements Initializable {
         }
 
         // Créer l'explosion au centre
-        createExplosion(bomb.getX(), bomb.getY());
+        createExplosion(bomb.getX(), bomb.getY(), bomb.getOwnerId());
 
         // Créer les flammes dans les 4 directions
         int range = bomb.getRange();
@@ -385,24 +391,27 @@ public class Jeu implements Initializable {
                 if (x < 0 || y < 0 || x >= GRID_WIDTH || y >= GRID_HEIGHT) break;
                 if (gameBoard[y][x] == WALL) break;
 
-                createExplosion(x, y);
 
                 if (gameBoard[y][x] == BRICK) {
                     gameBoard[y][x] = EMPTY;
-                    // Chance de créer un powerup (50% de chance)
-                    if (random.nextDouble() < 0.5) {
+                    players.get(bomb.getOwnerId()-1).setScore(players.get(bomb.getOwnerId()-1).getScore()+1);
+                    System.out.println(players.get(bomb.getOwnerId()-1).getScore());
+                    // Chance de créer un powerup (20% de chance)
+                    if (random.nextDouble() < 0.2) {
                         createPowerUp(x, y);
                     }
                     break;
                 }
+                createExplosion(x, y, bomb.getOwnerId());
             }
         }
     }
 
-    private void createExplosion(int x, int y) {
+    private void createExplosion(int x, int y, int ownerId) {
         if (x < 0 || y < 0 || x >= GRID_WIDTH || y >= GRID_HEIGHT) return;
 
         Explosions explosion = new Explosions(x, y);
+        explosion.setOwnerId(ownerId);
         explosions.add(explosion);
 
         // Détruire un power-up s'il y en a un à cette position
@@ -412,11 +421,15 @@ public class Jeu implements Initializable {
             gameBoard[y][x] = EXPLOSION;
         }
 
+
         // Programmer la fin de l'explosion
         Timeline explosionEnd = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> {
             explosions.remove(explosion);
+
             if (gameBoard[y][x] == EXPLOSION) {
                 gameBoard[y][x] = EMPTY;
+                //players.get(explosion.getOwnerId()-1).setScore(players.get(explosion.getOwnerId()-1).getScore()+1);
+                //System.out.println(players.get(explosion.getOwnerId()-1).getScore());
             }
         }));
         explosionEnd.play();
@@ -506,6 +519,7 @@ public class Jeu implements Initializable {
                     player.perdreVie();
                     if (!player.isAlive()) {
                         System.out.println("Player " + player.getCouleur() + " eliminated!");
+                        players.get(explosion.getOwnerId()-1).setScore(players.get(explosion.getOwnerId()-1).getScore()+10);
                     }
                 }
             }
@@ -624,6 +638,10 @@ public class Jeu implements Initializable {
                 return Sprite.bomb_Up;
             case SPEED_UP:
                 return Sprite.speed_Up;
+            case EXTRA_LIFE:
+                return Sprite.life_Up;
+            case INVINCIBILITY:
+                return Sprite.invincibility;
             default:
                 return Sprite.bomb_Up; // fallback
         }
@@ -872,12 +890,11 @@ public class Jeu implements Initializable {
                     titleText = "JOUEUR " + winner.get().getCouleur().toUpperCase() + " GAGNE!";
                     // Couleur spéciale pour le gagnant
                     switch (winner.get().getCouleur()) {
-                        case "Rouge": gc.setFill(Color.RED); redWin++; break;
-                        case "Bleu": gc.setFill(Color.BLUE); blueWin++; break;
-                        case "Vert": gc.setFill(Color.LIME); greenWin++; break;
-                        case "Jaune": gc.setFill(Color.YELLOW); yellowWin++; break;
+                        case "Rouge": gc.setFill(Color.RED); break;
+                        case "Bleu": gc.setFill(Color.BLUE); break;
+                        case "Vert": gc.setFill(Color.LIME); break;
+                        case "Jaune": gc.setFill(Color.YELLOW); break;
                     }
-                    //writeSaveFile();
                 } else {
                     titleText = "ÉGALITÉ!";
                 }
@@ -955,6 +972,17 @@ public class Jeu implements Initializable {
      * Arrêt propre du jeu avec nettoyage des ressources
      */
     public void stopGame() {
+        Optional<JoueurMultiplayer> winner = players.stream()
+                .filter(JoueurMultiplayer::isAlive)
+                .findFirst();
+        if (winner.isPresent()) {
+            switch (winner.get().getCouleur()) {
+                case "Rouge": redWin++; break;
+                case "Bleu": blueWin++; break;
+                case "Vert": greenWin++; break;
+                case "Jaune": yellowWin++; break;
+            }
+        }
         if (gameLoop != null) {
             gameLoop.stop();
             gameLoop = null;

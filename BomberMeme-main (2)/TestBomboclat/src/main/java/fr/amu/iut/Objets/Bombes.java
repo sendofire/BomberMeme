@@ -10,9 +10,10 @@ public class Bombes {
     public Bombes(int x, int y) {
         this.x = x;
         this.y = y;
-        this.range = 2; // portée par défaut
+        this.range =1; // portée par défaut
         this.timeCreated = System.currentTimeMillis();
         this.explosionTime = 3000; // 3 secondes par défaut
+        this.ownerId = 0;
     }
 
     public Bombes(int x, int y, int range, int explosionTime) {

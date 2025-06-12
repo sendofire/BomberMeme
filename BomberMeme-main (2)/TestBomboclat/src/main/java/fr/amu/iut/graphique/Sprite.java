@@ -140,6 +140,8 @@ public class Sprite {
     public static final Sprite bomb_Up = new Sprite("powerUP-bomb.png");
     public static final Sprite fire_Up = new Sprite("powerUP-explosion.png");
     public static final Sprite speed_Up = new Sprite("powerUP-speed.png");
+    public static final Sprite life_Up = new Sprite("powerUp-life.png");
+    public static final Sprite invincibility = new Sprite("powerUp-invincibility.png");
 
     /**
      * Constructeur privé pour créer un sprite à partir d'un fichier image

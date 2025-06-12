@@ -33,12 +33,12 @@ public class PowerUps {
 
     public int getPoints() {
         switch (type) {
-            case BOMB_RANGE: return 100;
-            case BOMB_COUNT: return 150;
-            case SPEED_UP: return 200;
-            case EXTRA_LIFE: return 500;
-            case INVINCIBILITY: return 300;
-            default: return 50;
+            case BOMB_RANGE: return 10;
+            case BOMB_COUNT: return 15;
+            case SPEED_UP: return 20;
+            case EXTRA_LIFE: return 50;
+            case INVINCIBILITY: return 30;
+            default: return 5;
         }
     }
 

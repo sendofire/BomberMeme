@@ -14,19 +14,28 @@ public class Joueurs {
     private int porteBombe;
     private String direction;
     private boolean alive;
+    private int score;
 
     public Joueurs(int idJ, int x, int y) {
         this.idJ = idJ;
         this.x = x;
         this.y = y;
         this.vies = 3;
-        this.vitesse = 5;
+        this.vitesse = 1;
         this.nombreBombes = 1;
-        this.porteBombe = 2;
+        this.porteBombe = 1;
         this.direction = "DOWN";
         this.alive = true;
+        this.score = 0;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
     //Initialize up animation sprites
     //List<Sprite> up = new ArrayList<>();
     //up.add(Sprite.player_up_rouge);
